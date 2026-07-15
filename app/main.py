@@ -2,7 +2,7 @@ from contextlib import asynccontextmanager
 
 import pandas as pd
 
-from fastapi import FastAPI, File, HTTPException, Request, UploadFile
+from fastapi import Depends, FastAPI, File, HTTPException, Request, UploadFile
 from fastapi.responses import JSONResponse
 
 from src.data.data_cleaning import clean_data
@@ -30,7 +30,20 @@ async def lifespan(app: FastAPI):
     logger.info("Application shutting down.")
 
 
+def get_model_service(request: Request) -> Modelservice:
+    return request.app.state.model_service
+
+
+def get_validator(request: Request) -> ValidateStudentData:
+    return request.app.state.validator
+
+
+def get_dataframe(file: UploadFile = File(...)) -> pd.DataFrame:
+    df =  pd.read_csv(file.file, sep=";")
+    return clean_data(df, config=config)
+
 def create_app() -> FastAPI:
+
     app = FastAPI(
         title="Student Success Prediction API",
         version="1.0.0",
@@ -46,20 +59,14 @@ def create_app() -> FastAPI:
 
     @app.post("/predict/file")
     async def predict_file(
-        request: Request,
         file: UploadFile = File(...),
+        df: pd.DataFrame = Depends(get_dataframe),
+        validator: ValidateStudentData = Depends(get_validator),
+        model_service: Modelservice = Depends(get_model_service),
     ):
         try:
             logger.info("Reading uploaded CSV: %s", file.filename)
-
-            df = pd.read_csv(file.file, sep=";")
-
             logger.info("Rows: %d Columns: %d", *df.shape)
-
-            df = clean_data(df, config)
-
-            validator = request.app.state.validator
-            model_service = request.app.state.model_service
 
             df = validator.validate_csv_file(df)
 
