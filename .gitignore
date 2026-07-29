@@ -32,3 +32,9 @@ __pycache__/
 # OS files
 .DS_Store
 Thumbs.db
+
+# project metadata
+what_to_do.txt
+strong_point_of_project.txt
+
+project-structur.txt
