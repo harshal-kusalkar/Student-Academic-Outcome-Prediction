@@ -242,3 +242,136 @@ Ranking by Macro F1 (Primary Metric)
 
 AFTER EVALUATION RESULT AT WANDB: https://wandb.ai/h41497254-none/student-drop-enroll-grad-preds/runs/q69ddch9?nw=nwuserh41497254 
 
+
+🚀 Quick Start
+
+git clone https://github.com/<your-username>/Student-Academic-dropout-enroll-graduate-rate-prediction.git
+
+cd Student-Academic-dropout-enroll-graduate-rate-prediction
+
+pip install -r requirements.txt
+
+python -m main
+
+10. Dataset
+
+This project uses the Predict Students' Dropout and Academic Success dataset from the UCI Machine Learning Repository, a widely used benchmark dataset for educational data mining and student performance prediction. The dataset combines demographic, academic, and socioeconomic information to predict student outcomes as one of three classes: Dropout, Enrolled, or Graduate.
+
+Dataset Information
+
+| Attribute          | Details                                        |
+| ------------------ | ---------------------------------------------- |
+| **Dataset Name**   | Predict Students' Dropout and Academic Success |
+| **Source**         | UCI Machine Learning Repository                |
+| **Task**           | Multi-class Classification                     |
+| **Dataset Type**   | Tabular                                        |
+| **Instances**      | 4,424 students                                 |
+| **Features**       | 36 input features                              |
+| **Target Classes** | 3 (Dropout, Enrolled, Graduate)                |
+| **File Size**      | 520.7 KB                                       |
+| **Missing Values** | None                                           |
+
+
+Target Classes
+
+The model predicts one of the following academic outcomes:
+
+Dropout – Student is likely to discontinue their studies.
+Enrolled – Student is expected to continue their education.
+Graduate – Student is expected to successfully complete their degree.
+Dataset Source
+UCI Machine Learning Repository: Predict Students' Dropout and Academic Success Dataset
+
+11. Model Information
+
+To identify the most effective classifier for predicting student academic outcomes, multiple machine learning algorithms were trained and benchmarked. Each model was evaluated using consistent preprocessing and evaluation metrics to ensure a fair comparison.
+
+Models Evaluated
+| Model                   | Description                                                                                                         |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| **Logistic Regression** | Linear baseline model for multi-class classification.                                                               |
+| **Random Forest**       | Ensemble learning algorithm based on multiple decision trees.                                                       |
+| **Extra Trees**         | Randomized ensemble model that improves robustness and reduces variance.                                            |
+| **XGBoost**             | Gradient boosting framework optimized for speed and predictive performance.                                         |
+| **LightGBM**            | Histogram-based gradient boosting algorithm designed for efficiency and scalability.                                |
+| **CatBoost**            | Gradient boosting algorithm with excellent handling of categorical features and minimal preprocessing requirements. |
+
+Model Selection Strategy
+
+All models were trained and evaluated using the same dataset and preprocessing pipeline. Their performance was compared based on multiple classification metrics.
+
+The best-performing model was selected using Macro F1-Score (F1 Macro) as the primary evaluation metric.
+
+Why F1 Macro?
+
+The dataset contains three target classes (Dropout, Enrolled, and Graduate) with an imbalanced class distribution. Macro F1-Score gives equal importance to each class by averaging the F1-Score across all classes, making it a more reliable metric than overall accuracy for this problem.
+
+12. Results & Benchmark
+Model Benchmark
+
+Six machine learning models were benchmarked using cross-validation. Each model was evaluated using multiple classification metrics, with Macro F1-Score serving as the primary criterion for model selection.
+
+| Rank | Model               |  Accuracy  | Balanced Accuracy |  Macro F1  | Training Time (s) |
+| :--: | ------------------- | :--------: | :---------------: | :--------: | ----------------: |
+|  🥇  | **XGBoost**         | **0.7409** |     **0.6567**    | **0.6642** |              1.06 |
+|  🥈  | **LightGBM**        |   0.7409   |       0.6540      |   0.6605   |              7.96 |
+|  🥉  | **CatBoost**        |   0.7369   |       0.6458      |   0.6520   |             19.55 |
+|   4  | Random Forest       |   0.7420   |       0.6432      |   0.6502   |          **0.87** |
+|   5  | Extra Trees         |   0.7279   |       0.6250      |   0.6323   |          **0.80** |
+|   6  | Logistic Regression |   0.6878   |       0.5673      |   0.5567   |              1.27 |
+
+Model selection was based on the Macro F1-Score, as it provides a balanced evaluation across all three target classes despite class imbalance.
+
+Hyperparameter Optimization
+
+Based on the benchmark results, the top two models were selected for hyperparameter optimization using Optuna.
+
+| Model        | Best Macro F1 (CV) | Best Trial | Status     |
+| ------------ | :----------------: | :--------: | ---------- |
+| **XGBoost**  |     **0.6776**     |     19     | Finalist   |
+| **LightGBM** |       0.6740       |     24     | ✅ Selected |
+
+Final Model Selection
+
+Although XGBoost achieved the highest Macro F1-Score during hyperparameter optimization (0.6776), LightGBM was selected as the final production model.
+
+Why LightGBM?
+
+LightGBM was chosen because it provides an excellent balance between predictive performance and computational efficiency.
+
+Macro F1-Score very close to XGBoost.
+Faster inference with a lightweight model.
+Lower computational and memory requirements.
+Well suited for deployment in real-world applications.
+
+This trade-off makes LightGBM a practical choice for production environments while maintaining competitive predictive performance.
+
+📊 Benchmark Summary
+6 machine learning algorithms evaluated.
+2 top-performing models selected for hyperparameter optimization.
+Hyperparameter tuning performed using Optuna.
+Macro F1-Score used as the primary model selection metric.
+LightGBM selected as the final production model due to its balance of performance and efficiency.
+
+20. Future Improvements
+
+Although the project demonstrates a complete end-to-end machine learning workflow, several enhancements can further improve its scalability, automation, and deployment capabilities.
+
+☁️ Cloud Integration
+Integrate cloud platforms such as AWS, Microsoft Azure, or Google Cloud Platform (GCP) for scalable storage and deployment.
+Enable cloud-based model serving and inference.
+📦 Cloud-Based Artifact & Model Versioning
+Configure DVC with cloud storage backends (AWS S3, Azure Blob Storage, or Google Cloud Storage).
+Store datasets, trained models, and experiment artifacts remotely for better collaboration and reproducibility.
+Enable seamless model version management across development and production environments.
+🔄 End-to-End CI/CD Pipeline
+Extend the existing CI workflow to a complete CI/CD pipeline.
+Automate model training, validation, testing, and deployment.
+Trigger retraining when new data or code changes are introduced.
+Deploy updated models automatically after passing quality checks.
+🚀 Production Deployment
+Deploy the FastAPI application using cloud services such as AWS, Azure, or GCP.
+Containerize the application with Docker and orchestrate deployments for improved scalability.
+📊 Monitoring & Model Maintenance
+Add model performance monitoring to detect performance degradation over time.
+Implement automated alerts and scheduled retraining to keep the model up to date.
