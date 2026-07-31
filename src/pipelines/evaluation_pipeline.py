@@ -1,11 +1,10 @@
-from src.model import eval
+from src.model.eval import evaluate
 
 from utils.io import (
     load_model,
     load_csv,
     load_numpy,
     save_json,
-    save_model
 )
 
 from utils.logger import get_logger
@@ -13,43 +12,65 @@ from utils.load_config import load_config
 
 logger = get_logger(__name__)
 
+
 def run():
-    logger.info("=========== Evaluation Started =============")
-   
-    # load config
+
+    logger.info("========== Evaluation Started ==========")
+
+    # ------------------------------------------------
+    # Load configuration
+    # ------------------------------------------------
+
     config = load_config()
-    logger.info("config file loaded")
-    logger.debug(config)
 
-    # load test data
-    X_test = load_csv(path=config.processed_data.X_test_path)
-    y_test = load_numpy(path=config.processed_data.y_test_path)
+    logger.info("Configuration loaded successfully.")
 
-    # load model
-    model = load_model(path=config.artifacts.model_path)
+    # ------------------------------------------------
+    # Load processed test data
+    # ------------------------------------------------
 
-    # model evaluation 
-    result, report = eval.eval(
+    X_test = load_csv(config.processed_data.X_test_path)
+    y_test = load_numpy(config.processed_data.y_test_path)
+
+    logger.info(
+        "Loaded test data: %d samples, %d features",
+        X_test.shape[0],
+        X_test.shape[1],
+    )
+
+    # ------------------------------------------------
+    # Load trained model
+    # ------------------------------------------------
+
+    model = load_model(config.artifacts.model_path)
+
+    logger.info("Model loaded successfully.")
+
+    # ------------------------------------------------
+    # Evaluate
+    # ------------------------------------------------
+
+    metrics, report = evaluate(
         model=model,
         X_test=X_test,
         y_test=y_test,
-        config=config
+        config=config,
     )
 
-    save_json(data=result, path=config.artifacts.eval_result_path)
-    save_model(model=report, path=config.artifacts.classification_report_path)
+    # ------------------------------------------------
+    # Save evaluation artifacts
+    # ------------------------------------------------
 
-    logger.info("========= Evaluation Complete ============")
+    save_json(
+        metrics,
+        config.artifacts.eval_result_path,
+    )
 
-if __name__ == "__main__":
-    run()
+    save_json(
+        report,
+        config.artifacts.classification_report_path,
+    )
 
+    logger.info("Evaluation artifacts saved.")
 
-
-
-
-
-
-
-
-
+    logger.info("========== Evaluation Completed ==========")

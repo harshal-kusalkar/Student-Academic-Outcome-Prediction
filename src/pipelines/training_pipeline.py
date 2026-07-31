@@ -1,4 +1,4 @@
-from src.model import eval, train 
+from src.model import  train 
 
 from utils.io import (
     load_csv,
@@ -34,8 +34,6 @@ def run():
 
     logger.info("Training Pipeline Complete.")
 
-if __name__ == "__main__":
-    run()
 
 
 

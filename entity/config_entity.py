@@ -1,7 +1,12 @@
 from pathlib import Path
-from pydantic import BaseModel
-from typing import Dict, Any
+from typing import Any
 
+from pydantic import BaseModel
+
+
+# -----------------------------
+# Preprocessing
+# -----------------------------
 
 class PreprocessingConfig(BaseModel):
     drop_columns: list[str]
@@ -9,39 +14,92 @@ class PreprocessingConfig(BaseModel):
     target: list[str]
 
 
+# -----------------------------
+# Data Split
+# -----------------------------
+
 class DataSplitConfig(BaseModel):
     test_size: float
     random_state: int
 
 
+# -----------------------------
+# Paths
+# -----------------------------
+
 class DataPathConfig(BaseModel):
     data_dir_path: Path
 
-class ArtifactsPathConfig(BaseModel):
-    model_path: Path 
-    encoder_path: Path 
+
+class ArtifactPathConfig(BaseModel):
+    model_path: Path
+    encoder_path: Path
     feature_names_path: Path
     data_validation_path: Path
     eval_result_path: Path
     classification_report_path: Path
 
-class ProcessedPathConfig(BaseModel):
-    X_train_path: Path 
-    X_test_path: Path 
-    y_train_path: Path 
-    y_test_path: Path 
 
+class ProcessedDataConfig(BaseModel):
+    X_train_path: Path
+    X_test_path: Path
+    y_train_path: Path
+    y_test_path: Path
+
+
+# -----------------------------
+# Model
+# -----------------------------
 
 class ModelConfig(BaseModel):
-    model_name: str 
-    best_params: Dict[str, Any]
-    random_state: int 
-    n_splits: int
+    name: str
+    version: str
+
+
+class TrainingConfig(BaseModel):
+    random_state: int
+    n_jobs: int
+
+
+class ModelParamsConfig(BaseModel):
+    objective: str
+    boosting_type: str
+    metric: str
+    verbosity: int
+
+    n_estimators: int
+    learning_rate: float
+    max_depth: int
+    num_leaves: int
+    min_child_samples: int
+    min_child_weight: float
+    subsample: float
+    subsample_freq: int
+    colsample_bytree: float
+    reg_alpha: float
+    reg_lambda: float
+    min_split_gain: float
+
+
+class ExperimentConfig(BaseModel):
+    best_trial: int
+    cv_metric: str
+    best_cv_score: float
+
+
+# -----------------------------
+# Root Config
+# -----------------------------
 
 class Config(BaseModel):
     preprocessing: PreprocessingConfig
     data_split: DataSplitConfig
     data_paths: DataPathConfig
+
+    artifacts: ArtifactPathConfig
+    processed_data: ProcessedDataConfig
+
     model: ModelConfig
-    artifacts: ArtifactsPathConfig
-    processed_data: ProcessedPathConfig
+    training: TrainingConfig
+    model_params: ModelParamsConfig
+    experiment: ExperimentConfig
