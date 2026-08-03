@@ -1,102 +1,122 @@
-Model Benchmark
-Overview
+# Model Benchmark
 
-Model benchmarking is the process of evaluating multiple machine learning algorithms under the same experimental conditions to identify the most suitable model for production deployment.
+## Overview
 
-In this project, six classification algorithms are trained using the same dataset, preprocessing pipeline, and evaluation strategy. Their performance is compared using multiple evaluation metrics to ensure an objective and fair selection process.
+To identify the most suitable production model, multiple machine learning algorithms were evaluated using the same dataset, preprocessing pipeline, and evaluation strategy. This ensured a fair comparison and enabled objective model selection based on consistent performance metrics.
 
-Objectives
+---
 
-The benchmarking process aims to:
+## Benchmark Workflow
 
-Evaluate multiple machine learning algorithms
-Compare model performance using standardized metrics
-Identify the most suitable production model
-Analyze the trade-off between predictive performance and computational efficiency
-Support objective model selection
+```mermaid
+flowchart LR
 
-Models Evaluated
+    A[Processed Dataset]
+    B[Train Models]
+    C[Evaluate Performance]
+    D[Compare Results]
+    E[Hyperparameter Optimization]
+    F[Select Production Model]
 
-The following supervised machine learning algorithms were benchmarked during experimentation.
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F
+```
 
-| Model               | Description                                                                 |
-| ------------------- | --------------------------------------------------------------------------- |
-| Logistic Regression | Linear baseline classifier for multi-class classification                   |
-| Random Forest       | Ensemble learning using multiple decision trees                             |
-| Extra Trees         | Randomized tree-based ensemble method                                       |
-| XGBoost             | Gradient boosting algorithm optimized for predictive performance            |
-| LightGBM            | Histogram-based gradient boosting framework                                 |
-| CatBoost            | Gradient boosting algorithm with efficient handling of categorical features |
+---
 
-All models were evaluated using identical preprocessing and evaluation procedures to ensure a fair comparison.
+## Models Evaluated
 
-Evaluation Metrics
+The following supervised learning algorithms were benchmarked.
 
-Model performance is assessed using multiple classification metrics.
+| Model | Description |
+|-------|-------------|
+| Logistic Regression | Linear baseline classifier |
+| Random Forest | Bagging-based decision tree ensemble |
+| Extra Trees | Randomized tree ensemble |
+| XGBoost | Gradient boosting framework |
+| LightGBM | Histogram-based gradient boosting |
+| CatBoost | Gradient boosting with categorical feature support |
 
-| Metric            | Purpose                                                                               |
-| ----------------- | ------------------------------------------------------------------------------------- |
-| Accuracy          | Measures overall prediction correctness                                               |
-| Balanced Accuracy | Accounts for class imbalance by averaging recall across classes                       |
-| Macro F1-Score    | Evaluates overall classification performance by giving equal importance to each class |
+All models were trained using the same preprocessing pipeline and evaluated under identical conditions.
 
+---
 
-Among these metrics, Macro F1-Score is used as the primary criterion for model selection because the dataset contains three target classes with an imbalanced distribution.
+## Evaluation Metrics
 
-Benchmark Results
+Model performance was evaluated using multiple classification metrics.
 
-The following benchmark summarizes the performance of each evaluated model.
+| Metric | Purpose |
+|---------|---------|
+| Accuracy | Overall prediction accuracy |
+| Balanced Accuracy | Handles class imbalance by averaging recall |
+| Macro F1-Score | Equal importance to all target classes |
 
-| Rank | Model               |  Accuracy  | Balanced Accuracy |  Macro F1  | Training Time (s) |
-| :--: | ------------------- | :--------: | :---------------: | :--------: | ----------------: |
-|  🥇  | **XGBoost**         | **0.7409** |     **0.6567**    | **0.6642** |              1.06 |
-|  🥈  | **LightGBM**        |   0.7409   |       0.6540      |   0.6605   |              7.96 |
-|  🥉  | **CatBoost**        |   0.7369   |       0.6458      |   0.6520   |             19.55 |
-|   4  | Random Forest       |   0.7420   |       0.6432      |   0.6502   |          **0.87** |
-|   5  | Extra Trees         |   0.7279   |       0.6250      |   0.6323   |          **0.80** |
-|   6  | Logistic Regression |   0.6878   |       0.5673      |   0.5567   |              1.27 |
+> [!IMPORTANT]
+> **Macro F1-Score** was used as the primary model selection metric because the dataset contains an imbalanced distribution of **Dropout**, **Enrolled**, and **Graduate** classes.
 
-These benchmark results provide an objective comparison of predictive performance across all candidate models.
+---
 
-Hyperparameter Optimization
+## Benchmark Results
 
-After benchmarking, the two highest-performing models were selected for hyperparameter optimization
+| Rank | Model | Accuracy | Balanced Accuracy | Macro F1 | Training Time (s) |
+|:---:|----------------------|:-------:|:-----------------:|:--------:|------------------:|
+| 🥇 | **XGBoost** | **0.7409** | **0.6567** | **0.6642** | 1.06 |
+| 🥈 | **LightGBM** | 0.7409 | 0.6540 | 0.6605 | 7.96 |
+| 🥉 | **CatBoost** | 0.7369 | 0.6458 | 0.6520 | 19.55 |
+| 4 | Random Forest | 0.7420 | 0.6432 | 0.6502 | **0.87** |
+| 5 | Extra Trees | 0.7279 | 0.6250 | 0.6323 | **0.80** |
+| 6 | Logistic Regression | 0.6878 | 0.5673 | 0.5567 | 1.27 |
 
-| Model        | Best Macro F1 (CV) | Best Trial | Status     |
-| ------------ | :----------------: | :--------: | ---------- |
-| **XGBoost**  |     **0.6776**     |     19     | Finalist   |
-| **LightGBM** |       0.6740       |     24     | ✅ Selected |
+---
 
-This optimization stage refines the performance of the leading candidates before making the final production decision.
+## Hyperparameter Optimization
 
-Final Model Selection
+The two highest-performing models were selected for hyperparameter optimization using **Optuna**.
 
-Although XGBoost achieved the highest Macro F1-Score after hyperparameter optimization, LightGBM was selected as the production model.
+| Model | Best Macro F1 (CV) | Best Trial | Status |
+|--------|:------------------:|:----------:|--------|
+| **XGBoost** | **0.6776** | 19 | Finalist |
+| **LightGBM** | 0.6740 | 24 | ✅ Selected |
 
-The selection considered not only predictive performance but also deployment efficiency.
+---
 
-Selection Criteria
-Competitive predictive performance
-Faster inference
-Lower memory consumption
-Computational efficiency
-Better suitability for production deployment
+## Production Model Selection
 
-This balanced approach ensures the final model performs well while remaining efficient in real-world applications.
+Although **XGBoost** achieved the highest Macro F1-Score after optimization, **LightGBM** was selected as the final production model.
 
-Benchmark Summary
+The decision considered both predictive performance and deployment efficiency.
 
-| Category                    | Summary                               |
-| --------------------------- | ------------------------------------- |
-| Models Evaluated            | 6                                     |
-| Primary Evaluation Metric   | Macro F1-Score                        |
-| Hyperparameter Optimization | Optuna                                |
-| Final Production Model      | LightGBM                              |
-| Model Selection Strategy    | Performance and deployment efficiency |
+### Selection Criteria
 
-Key Takeaways
-Six machine learning algorithms were benchmarked using a consistent evaluation pipeline.
-Macro F1-Score served as the primary metric for comparing model performance.
-XGBoost achieved the highest benchmark score after optimization.
-LightGBM was selected for production because it offered the best balance between predictive performance and computational efficiency.
-Hyperparameter optimization further improved the performance of the top-performing models before the final selection.
+- Competitive predictive performance
+- Faster inference
+- Lower memory consumption
+- Better computational efficiency
+- Suitable for production deployment
+
+---
+
+## Benchmark Summary
+
+| Category | Result |
+|-----------|--------|
+| Models Evaluated | 6 |
+| Primary Metric | Macro F1-Score |
+| Hyperparameter Optimization | Optuna |
+| Final Production Model | LightGBM |
+| Selection Strategy | Performance + Deployment Efficiency |
+
+---
+
+## Key Takeaways
+
+- Benchmarked **6** machine learning algorithms using a consistent evaluation pipeline.
+- Used **Macro F1-Score** as the primary metric for model comparison.
+- Applied **Optuna** to optimize the top-performing models.
+- Selected **LightGBM** for production based on its balance of predictive performance and computational efficiency.
+
+> [!NOTE]
+> The benchmarking process follows a structured and reproducible workflow, ensuring that the production model is selected through objective evaluation rather than empirical assumptions.

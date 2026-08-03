@@ -1,182 +1,186 @@
-Project Architecture
-Overview
+# Project Architecture
 
-The Student Academic Dropout, Enrollment & Graduation Prediction project is designed using a modular and scalable architecture that separates each stage of the machine learning lifecycle into independent components. Rather than implementing the entire workflow in a single script, every module is responsible for a specific task such as data preprocessing, model training, evaluation, or deployment.
+## Overview
 
-This separation of concerns improves maintainability, simplifies testing, and allows individual components to evolve independently without affecting the rest of the system. The architecture also follows configuration-driven development, enabling experiments and pipeline behavior to be modified through YAML configuration files instead of changing source code.
+The project follows a **modular, configuration-driven architecture** that separates each stage of the machine learning lifecycle into independent components. This design improves maintainability, simplifies testing, and makes it easier to extend the pipeline with new models, preprocessing techniques, or deployment methods.
 
-Architecture Goals
+---
 
-The project architecture is designed to achieve the following objectives:
+## Architecture Goals
 
-Modular and reusable codebase
-Clear separation of responsibilities
-Configuration-driven workflows
-Reproducible machine learning experiments
-Easy integration of new models and preprocessing techniques
-Production-ready deployment support
-Maintainable and scalable project structure
+The architecture is designed around the following principles:
 
-High-Level Architecture
+- Modular and reusable components
+- Clear separation of responsibilities
+- Configuration-driven workflows
+- Reproducible experiments
+- Scalable project structure
+- Production-ready deployment
 
+---
 
-The architecture follows a sequential machine learning workflow where each component receives the output of the previous stage. This design enables the pipeline to be executed, tested, and extended with minimal coupling between modules.
+## High-Level Architecture
 
-Project Directory Structure
+```mermaid
+flowchart LR
 
+    A[Dataset]
+    B[Data Validation]
+    C[Data Preprocessing]
+    D[Model Training]
+    E[Model Evaluation]
+    F[Model Artifacts]
+    G[FastAPI]
+
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F
+    F --> G
+```
+
+Each stage performs a single responsibility and passes its output to the next stage, resulting in a modular and reproducible machine learning pipeline.
+
+---
+
+## Project Structure
+
+```text
 Student-Academic-Dropout-Enrollment-Graduation-Prediction/
 │
-├── .github/                  # GitHub Actions workflows
-├── .dvc/                     # DVC configuration
-│
-├── app/                      # FastAPI and Streamlit applications
-├── artifacts/                # Trained models and generated artifacts
-├── config/                   # YAML configuration files
-├── data/                     # Raw and processed datasets
-├── docs/                     # Project documentation
-├── entity/                   # Configuration and entity definitions
-├── notebooks/                # Research and experimentation
-│
+├── .github/              # CI workflows
+├── .dvc/                 # DVC configuration
+├── app/                  # FastAPI application
+├── artifacts/            # Models and generated artifacts
+├── config/               # YAML configuration
+├── data/                 # Raw and processed datasets
+├── docs/                 # Documentation
+├── entity/               # Configuration entities
+├── notebooks/            # Research & experimentation
 ├── src/
 │   ├── data/
 │   ├── features/
 │   ├── pipeline/
 │   ├── models/
-│   ├── evaluation/
-│   
-│
-├── tests/                    # Unit tests
-├── utils/                    # Helper utilities
-│
+│   └── evaluation/
+├── tests/                # Unit tests
+├── utils/                # Utility modules
 ├── Dockerfile
 ├── dvc.yaml
-├── dvc.lock
 ├── main.py
-├── pytest.ini
-├── requirements.txt
 └── README.md
+```
 
-The project structure separates source code, configuration, experiments, deployment, documentation, and testing into dedicated directories, making the repository easier to navigate and maintain.
+The project structure separates source code, configuration, datasets, artifacts, documentation, and testing into dedicated modules, making the repository easier to maintain and extend.
 
-Architecture Components
-Configuration Layer
+---
 
-The project follows a configuration-first approach.
+# Core Components
 
-All configurable parameters—including preprocessing options, model settings, file paths, and pipeline behavior—are stored in YAML configuration files.
+## Configuration
 
-This approach provides several benefits:
+Pipeline behavior is managed through **YAML configuration files** instead of hardcoded values.
 
-No hardcoded parameters
-Easier experimentation
-Better reproducibility
-Simplified maintenance
-Cleaner source code
+**Responsibilities**
 
+- Dataset paths
+- Training configuration
+- Hyperparameters
+- Model settings
+- Pipeline configuration
 
-Data Layer
+**Benefits**
 
-The data layer is responsible for managing datasets used throughout the machine learning pipeline.
+- Easier experimentation
+- Improved reproducibility
+- Cleaner codebase
 
-Its responsibilities include:
+---
 
-Managing raw datasets
-Storing processed datasets
-Maintaining dataset consistency
-Supporting reproducible data versioning
+## Data Processing
 
-The project uses DVC (Data Version Control) to version datasets and machine learning artifacts, enabling reproducible workflows across different environments.
+Responsible for preparing data before model training.
 
-Processing Layer
+**Responsibilities**
 
-The processing layer prepares raw student records for model training.
+- Data validation
+- Data preprocessing
+- Feature engineering
+- Dataset preparation
 
-Typical responsibilities include:
+DVC is used to version datasets and generated artifacts, ensuring reproducible experiments.
 
-Data validation
-Data cleaning
-Feature preprocessing
-Handling categorical variables
-Preparing datasets for training
+---
 
-Each preprocessing step is isolated from model training, allowing preprocessing pipelines to evolve independently.
+## Model Development
 
-Model Layer
+Implements the complete model development workflow.
 
-The model layer contains the machine learning algorithms and training logic.
+**Responsibilities**
 
-Its responsibilities include:
+- Train multiple models
+- Hyperparameter optimization
+- Model comparison
+- Save production model
 
-Training multiple machine learning models
-Hyperparameter optimization
-Model comparison
-Model serialization
-Saving the best-performing model
+The modular design allows new algorithms to be added without changing the overall pipeline.
 
-The architecture supports evaluating multiple algorithms before selecting the final production model.
+---
 
-Evaluation Layer
+## Model Evaluation
 
-The evaluation layer measures model performance using multiple classification metrics.
+Evaluates candidate models using standardized metrics.
 
-Responsibilities include:
+**Responsibilities**
 
-Model validation
-Performance reporting
-Metric calculation
-Model comparison
-Best model selection
+- Performance evaluation
+- Metric calculation
+- Model comparison
+- Production model selection
 
-Evaluation is performed independently of training, making it easy to benchmark different algorithms consistently.
+Separating evaluation from training ensures a fair and consistent benchmarking process.
 
-Deployment Layer
+---
 
-The deployment layer exposes the trained model for inference.
+## Deployment
 
-The project includes:
+Provides production inference through:
 
-FastAPI REST API
+- FastAPI REST API
 
-These interfaces allow predictions to be served programmatically.
+The deployment layer consumes the trained model artifacts and exposes prediction endpoints for inference.
 
-Supporting Infrastructure
+---
 
-Beyond the core machine learning pipeline, the project incorporates several infrastructure components that improve reliability and maintainability.
+# Supporting Infrastructure
 
-| Component      | Purpose                                |
-| -------------- | -------------------------------------- |
-| Git            | Source code version control            |
-| GitHub         | Repository hosting and collaboration   |
-| GitHub Actions | Continuous Integration (CI)            |
-| DVC            | Dataset and artifact versioning        |
-| Pytest         | Automated unit testing                 |
-| Docker         | Environment consistency and deployment |
-| YAML           | Centralized project configuration      |
-| Python Logging | Monitoring and debugging               |
+| Component | Purpose |
+|-----------|---------|
+| Git | Source code version control |
+| GitHub | Repository hosting |
+| GitHub Actions | Continuous Integration |
+| DVC | Data & artifact versioning |
+| Pytest | Automated testing |
+| Docker | Containerization |
+| YAML | Configuration management |
+| Python Logging | Application logging |
 
+Together, these tools provide a reproducible and production-oriented development workflow.
 
-These tools help create a reproducible and production-oriented machine learning workflow.
+---
 
-Architectural Principles
+# Architectural Principles
 
-The project follows several software engineering principles:
+| Principle | Description |
+|-----------|-------------|
+| **Modularity** | Independent components with single responsibilities |
+| **Separation of Concerns** | Data, training, evaluation, and deployment are isolated |
+| **Reproducibility** | Configuration files, DVC, and experiment tracking ensure consistent experiments |
+| **Scalability** | New models and preprocessing steps can be integrated with minimal changes |
+| **Maintainability** | Organized project structure simplifies debugging and collaboration |
 
-Separation of Concerns
+---
 
-Each module is responsible for a single part of the machine learning workflow, reducing dependencies between components.
-
-Modularity
-
-Individual components can be developed, tested, or replaced without affecting the rest of the system.
-
-Scalability
-
-New preprocessing techniques, models, or deployment methods can be integrated with minimal architectural changes.
-
-Reproducibility
-
-Configuration files, DVC pipelines, and experiment tracking ensure that training runs can be reproduced consistently.
-
-Maintainability
-
-A structured directory layout and isolated modules simplify debugging, collaboration, and long-term maintenance.
+> [!NOTE]
+> The architecture is designed to support the complete machine learning lifecycle while remaining modular, reproducible, and easy to maintain.
