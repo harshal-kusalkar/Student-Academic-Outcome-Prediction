@@ -240,8 +240,6 @@ Ranking by Macro F1 (Primary Metric)
 | 5    | ExtraTrees         |     0.6323 |            0.6250 |     0.7279 |
 | 6    | LogisticRegression |     0.5567 |            0.5673 |     0.6878 |
 
-AFTER EVALUATION RESULT AT WANDB: https://wandb.ai/h41497254-none/student-drop-enroll-grad-preds/runs/q69ddch9?nw=nwuserh41497254 
-
 
 🚀 Quick Start
 
