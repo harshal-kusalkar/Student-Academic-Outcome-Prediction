@@ -1,142 +1,185 @@
-🚀 MLOps Practices & System Architecture
-Overview & Core Objectives
+# MLOps Practices
 
-This repository extends traditional software engineering to Machine Learning through end-to-end automation, reproducibility, versioning, and production-grade deployment.
+## Overview
 
-graph TD
-    subgraph Dev["1. Development & Versioning"]
-        A[Git / Code] -->|Tracks Logic| CONFIG[YAML Configs]
-        B[DVC / Data & Artifacts] -->|Versions| S3[(Cloud/Remote Storage)]
-    end
+This project applies modern MLOps practices to build a reproducible, modular, and production-oriented machine learning pipeline. The workflow emphasizes version control, experiment tracking, automated validation, and deployment while keeping the codebase maintainable and scalable.
 
-    subgraph CI["2. Automated Quality Gate"]
-        CONFIG --> GH[GitHub Actions CI]
-        GH -->|Executes| PYTEST[Pytest Unit/Integration]
-    end
+---
 
-    subgraph Train["3. Training & Experimentation"]
-        PYTEST -->|Pass| OPT[Optuna Optimization]
-        OPT --> BENCH[Model Benchmarking]
-        BENCH -->|Log Metrics/Artifacts| WB[Weights & Biases]
-    end
+## MLOps Workflow
 
-    subgraph Deploy["4. Containerization & Serving"]
-        BENCH -->|Promote Best Model| DOCKER[Docker Container]
-        DOCKER --> FASTAPI[FastAPI REST API]
-        DOCKER --> STREAMLIT[Streamlit UI]
-    end
-
-[!NOTE]
-Core Engineering Goals: Guarantee end-to-end reproducibility, eliminate configuration drift, automate pipeline quality checks, and enable seamless deployment transitions.
-
-Architecture & Workflow Strategy
-1. Configuration-Driven Architecture
-
-Environment settings, hyperparameters, data schemas, and pipeline paths are strictly decoupled from source code and managed via YAML configurations.
-
-    Benefits: Zero code changes for re-runs, reproducible trial states, and clean parameter isolation.
-
-2. Modular Code Structure
-
-├── .github/workflows/  # Automated CI/CD pipelines
-├── app/               # FastAPI & Streamlit serving logic
-├── config/            # YAML environment & model configurations
-├── data/              # DVC-tracked dataset pointers (.dvc)
-├── artifacts/         # Serialized models, metrics, & evaluation reports
-├── src/               # Data ingestion, processing, and training modules
-├── tests/             # Automated Pytest suite
-└── Dockerfile         # Container deployment configuration
-
-Data Engineering & MLOps Pipeline
-Data & Artifact Versioning (DVC)
-
-Data and large model artifacts are decoupled from Git history using Data Version Control (DVC).
-
-    Mechanism: Git tracks lightweight .dvc hash pointers while raw data and binary model artifacts reside in remote storage.
-
-    Result: Atomic commits linking specific code versions directly to exact dataset snapshots and model weights.
-
-Experiment Tracking & Benchmarking
-
-To avoid premature model selection, candidate architectures are benchmarked systematically using unified validation splits.
-
-sequenceDiagram
-    autonumber
-    participant Pipeline as Pipeline Runner
-    participant Opt as Optuna Engine
-    participant WB as Weights & Biases
-    participant DVC as DVC / Artifacts
-
-    Pipeline->>Opt: Trigger Hyperparameter Search
-    loop Trial Run
-        Opt->>Pipeline: Inject Config & Hyperparameters
-        Pipeline->>WB: Log Losses, Metrics & Confusion Matrices
-    end
-    Opt-->>Pipeline: Return Best Candidate
-    Pipeline->>DVC: Hash & Store Serialized Artifacts (.pkl/.onnx)
-
-Continuous Integration & Deployment (CI/CD)
-
+```mermaid
 flowchart LR
-    PR[Git Push / PR] --> GHA[GitHub Actions]
-    
-    subgraph CI_Stage["CI Checks"]
-        GHA --> LINT[Code Linting]
-        GHA --> TEST[Pytest Suite]
-        GHA --> VAL[Data Validation]
-    end
 
-    subgraph CD_Stage["Deployment Readiness"]
-        TEST -->|Pass| BUILD[Build Docker Image]
-        BUILD --> SERVE_API[FastAPI Endpoint]
-        BUILD --> SERVE_UI[Streamlit App]
-    end
+    A[Student Dataset]
+    B[Data Validation]
+    C[Data Preprocessing]
+    D[Model Training]
+    E[Model Evaluation]
+    F[Experiment Tracking]
+    G[Model Artifacts]
+    H[FastAPI Deployment]
 
-Automated Quality Gates: Every Pull Request triggers a GitHub Actions workflow executing unit tests, data integrity checks, and syntax validation.
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F
+    F --> G
+    G --> H
+```
 
-Containerization: Environment consistency across staging and production is locked using multi-stage Docker builds.
+---
 
-MLOps Technology Stack
+# Implemented MLOps Practices
 
-Category,Technology,Operational Function
-Language & Core,Python,Core development
-Version Control,Git + GitHub,Code versioning & PR gating
-Data/Artifact Control,DVC,Dataset & model weight tracking
-Experimentation,Weights & Biases,"Metric logging, artifacts, & visual comparison"
-Optimization,Optuna,Automated hyperparameter tuning
-Testing & CI,Pytest + GitHub Actions,Automated quality checks & pipeline validation
-Serving & Delivery,"FastAPI, Streamlit, Docker","REST serving, UI prototyping, & containerization"
-Configuration,YAML,Decoupled pipeline orchestration
+## Configuration-Driven Development
 
-Capability Matrix
+The pipeline is driven by YAML configuration files rather than hardcoded values, allowing experiments to be reproduced without modifying source code.
 
-    [x] Modular codebase architecture
+**Benefits**
 
-    [x] Configuration-driven execution (YAML)
+- Centralized configuration
+- Easier experimentation
+- Improved reproducibility
+- Cleaner codebase
 
-    [x] Data & artifact versioning (DVC)
+---
 
-    [x] Automated hyperparameter search (Optuna)
+## Modular Project Architecture
 
-    [x] Real-time experiment tracking (W&B)
+The project follows a modular architecture where each component has a single responsibility.
 
-    [x] Automated testing suite (Pytest)
+```text
+src/
+config/
+data/
+artifacts/
+app/
+tests/
+utils/
+```
 
-    [x] Automated CI pipelines (GitHub Actions)
+This separation simplifies maintenance, testing, and future development.
 
-    [x] Microservice REST API (FastAPI)
+---
 
-    [x] Interactive interface (Streamlit)
+## Data & Artifact Versioning
 
-    [x] Immutable deployment containers (Docker)
+The project uses **DVC** to version datasets and machine learning artifacts.
 
-Roadmap & Future Enhancements
+```mermaid
+flowchart LR
 
-    [!TIP]
-    Planned infrastructure upgrades to move from a Stage 1 MLOps baseline to a fully autonomous production framework.
+    A[Dataset]
+    B[DVC]
+    C[Training Pipeline]
+    D[Model Artifacts]
 
-graph LR
-    A[Cloud Artifact Storage] --> B[Centralized Model Registry]
-    B --> C[CD Automated Deployments]
-    C --> D[Data Drift & Performance Monitoring]
-    D -->|Drift Threshold Exceeded| E[Automated Retraining Trigger]
+    A --> B
+    B --> C
+    C --> D
+```
+
+**Benefits**
+
+- Reproducible datasets
+- Versioned model artifacts
+- Consistent training pipeline
+
+---
+
+## Experiment Tracking
+
+Training experiments are tracked using:
+
+- Weights & Biases (W&B)
+- MLflow
+
+Each experiment records:
+
+- Hyperparameters
+- Evaluation metrics
+- Model artifacts
+- Training configuration
+
+This enables objective comparison between different training runs.
+
+---
+
+## Model Benchmarking
+
+Multiple machine learning algorithms are evaluated using the same preprocessing pipeline and evaluation metrics before selecting the production model.
+
+This ensures that model selection is based on measurable performance rather than assumptions.
+
+---
+
+## Continuous Integration
+
+GitHub Actions automatically validates the project whenever new code is pushed.
+
+```mermaid
+flowchart LR
+
+    A[Code Push]
+    B[GitHub Actions]
+    C[Run Tests]
+    D[Quality Check]
+
+    A --> B
+    B --> C
+    C --> D
+```
+
+Automated testing helps maintain code quality throughout development.
+
+---
+
+## Deployment
+
+The trained model is prepared for production using:
+
+- FastAPI REST API
+- Streamlit Web Application
+- Docker
+
+These components provide a consistent environment for serving predictions.
+
+---
+
+# MLOps Stack
+
+| Area | Technology |
+|------|------------|
+| Version Control | Git, GitHub |
+| Configuration | YAML |
+| Data Versioning | DVC |
+| Experiment Tracking | W&B, MLflow |
+| Hyperparameter Optimization | Optuna |
+| Testing | Pytest |
+| CI | GitHub Actions |
+| Deployment | FastAPI, Streamlit |
+| Containerization | Docker |
+
+---
+
+# MLOps Capabilities
+
+- ✅ Modular project architecture
+- ✅ Configuration-driven pipeline
+- ✅ Data validation
+- ✅ Data versioning with DVC
+- ✅ Artifact versioning
+- ✅ Experiment tracking
+- ✅ Hyperparameter optimization
+- ✅ Model benchmarking
+- ✅ Automated testing
+- ✅ Continuous Integration
+- ✅ REST API deployment
+- ✅ Docker support
+
+---
+
+> [!NOTE]
+> This project demonstrates core MLOps practices by combining reproducible pipelines, version-controlled data, experiment tracking, automated testing, and deployment into a maintainable machine learning workflow.
