@@ -12,7 +12,6 @@ The project demonstrates an end-to-end machine learning workflow, from data vali
 ![FastAPI](https://img.shields.io/badge/FastAPI-API-009688?style=for-the-badge&logo=fastapi&logoColor=white)
 
 ![DVC](https://img.shields.io/badge/DVC-Data%20Versioning-945DD6?style=for-the-badge)
-![MLflow](https://img.shields.io/badge/MLflow-Experiment%20Tracking-0194E2?style=for-the-badge)
 ![W&B](https://img.shields.io/badge/Weights%20&%20Biases-FFBE00?style=for-the-badge)
 ![Optuna](https://img.shields.io/badge/Optuna-Hyperparameter%20Optimization-5C4EE5?style=for-the-badge)
 
@@ -30,7 +29,7 @@ The project demonstrates an end-to-end machine learning workflow, from data vali
 - 🏗️ Modular and configuration-driven project architecture
 - ⚙️ End-to-end machine learning pipeline
 - 📦 Reproducible workflows using **DVC**
-- 📈 Experiment tracking with **MLflow** and **Weights & Biases**
+- 📈 Experiment tracking with **Weights & Biases**
 - 🎯 Hyperparameter optimization using **Optuna**
 - 🧪 Automated testing with **Pytest**
 - 🔄 Continuous Integration using **GitHub Actions**
@@ -126,7 +125,7 @@ The workflow follows a modular pipeline where each stage performs a single respo
 | **Machine Learning** | Scikit-learn, LightGBM, XGBoost, CatBoost |
 | **Data Processing** | Pandas, NumPy |
 | **Hyperparameter Optimization** | Optuna |
-| **Experiment Tracking** | MLflow, Weights & Biases (W&B) |
+| **Experiment Tracking** | Weights & Biases (W&B) |
 | **Data Versioning** | DVC |
 | **API Development** | FastAPI |
 | **Testing** | Pytest |
