@@ -22,6 +22,8 @@ artifacts/logs/
 __pycache__/
 *.py[cod]
 *$py.class
+**/__pycache__/
+
 
 # Pytest cache
 .pytest_cache/
