@@ -40,3 +40,14 @@ what_to_do.txt
 strong_point_of_project.txt
 
 project-structur.txt
+artifacts/models/
+
+**/__pycache__/
+
+# Python bytecode & cache directories
+__pycache__/
+*.pyc
+
+# Runtime logs & generated artifacts
+artifacts/logs/
+*.log
