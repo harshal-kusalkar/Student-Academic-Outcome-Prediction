@@ -9,3 +9,11 @@ wandb
 artifacts/models/
 
 **/__pycache__/
+
+# Python bytecode & cache directories
+__pycache__/
+*.pyc
+
+# Runtime logs & generated artifacts
+artifacts/logs/
+*.log
