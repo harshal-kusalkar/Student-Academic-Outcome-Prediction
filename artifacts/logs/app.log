@@ -513,3 +513,11 @@ AttributeError: 'numpy.ndarray' object has no attribute 'to'
 2026-07-03 22:53:57,868 | src.inference.loader | INFO | Encoder loaded successfully.
 2026-07-03 22:53:57,868 | utils.io | INFO | Loaded model: artifacts\feature_names.joblib
 2026-07-03 22:53:57,868 | src.inference.loader | INFO | Feature names loaded successfully.
+2026-08-11 12:51:06,777 | src.inference.predict | INFO | Model loading....
+2026-08-11 12:51:19,693 | utils.io | INFO | Loaded model: artifacts\models\best_model.joblib
+2026-08-11 12:51:19,694 | src.inference.loader | INFO | Model loaded successfully.
+2026-08-11 12:51:19,694 | src.inference.predict | INFO | Loading feature names....
+2026-08-11 12:51:19,718 | utils.io | INFO | Loaded model: artifacts\encoder.joblib
+2026-08-11 12:51:19,718 | src.inference.loader | INFO | Encoder loaded successfully.
+2026-08-11 12:51:19,718 | utils.io | INFO | Loaded model: artifacts\feature_names.joblib
+2026-08-11 12:51:19,718 | src.inference.loader | INFO | Feature names loaded successfully.
