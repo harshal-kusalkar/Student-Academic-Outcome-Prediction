@@ -1,8 +1,13 @@
+````markdown
 # 🎓 Student Academic Outcome Prediction
 
-A production-oriented machine learning project that predicts whether a student is likely to **Dropout**, **Remain Enrolled**, or **Graduate** using academic, demographic, and socioeconomic data.
+A modular machine learning project that predicts whether a student is likely to **Dropout**, **Remain Enrolled**, or **Graduate** using academic, demographic, and socioeconomic data.
 
-The project demonstrates an end-to-end machine learning workflow, from data validation and preprocessing to model training, benchmarking, experiment tracking, and deployment. It follows a modular architecture and incorporates modern MLOps practices such as **DVC**, **MLflow**, **Weights & Biases**, **Optuna**, **GitHub Actions**, **Docker**, and **FastAPI** to build a reproducible and production-ready prediction system. :contentReference[oaicite:0]{index=0}
+The project focuses on applying **MLOps architecture and engineering practices** to a machine learning workflow, including data validation, model training and benchmarking, experiment tracking, hyperparameter optimization, reproducibility, testing, and local API deployment.
+
+The raw dataset used for the project was already clean and ready to use. Therefore, data preprocessing and feature engineering were intentionally kept minimal, allowing the project to focus primarily on the **design and implementation of modular MLOps components** rather than extensive data preparation.
+
+---
 
 <p align="center">
 
@@ -12,7 +17,7 @@ The project demonstrates an end-to-end machine learning workflow, from data vali
 ![FastAPI](https://img.shields.io/badge/FastAPI-API-009688?style=for-the-badge&logo=fastapi&logoColor=white)
 
 ![DVC](https://img.shields.io/badge/DVC-Data%20Versioning-945DD6?style=for-the-badge)
-![W&B](https://img.shields.io/badge/Weights%20&%20Biases-FFBE00?style=for-the-badge)
+![W&B](https://img.shields.io/badge/Weights%20%26%20Biases-FFBE00?style=for-the-badge)
 ![Optuna](https://img.shields.io/badge/Optuna-Hyperparameter%20Optimization-5C4EE5?style=for-the-badge)
 
 ![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-CI-2088FF?style=for-the-badge&logo=githubactions&logoColor=white)
@@ -25,95 +30,110 @@ The project demonstrates an end-to-end machine learning workflow, from data vali
 
 ## 🚀 Highlights
 
-- 📊 Multi-class prediction (**Dropout**, **Enrolled**, **Graduate**)
+- 📊 Multi-class prediction: **Dropout**, **Enrolled**, **Graduate**
+- 🧹 Minimal preprocessing because the source dataset was already clean
 - 🏗️ Modular and configuration-driven project architecture
-- ⚙️ End-to-end machine learning pipeline
-- 📦 Reproducible workflows using **DVC**
-- 📈 Experiment tracking with **Weights & Biases**
+- 🤖 Benchmarking of multiple machine learning models
 - 🎯 Hyperparameter optimization using **Optuna**
+- 📈 Experiment tracking using **Weights & Biases**
+- 📦 Reproducible workflows using **DVC**
 - 🧪 Automated testing with **Pytest**
 - 🔄 Continuous Integration using **GitHub Actions**
-- 🚀 REST API deployment with **FastAPI**
-- 🐳 Docker support for consistent deployment
+- 🚀 FastAPI-based local inference service
+- 🐳 Docker-based containerization for the API
+- 📚 Separate documentation for architecture, MLOps practices, model benchmarking, API usage, and Docker deployment
+
+> **Implementation scope:** The current project focuses on the machine learning pipeline, MLOps components, and local/containerized inference. Full production cloud deployment and automated CD are planned as future improvements.
+
+---
 
 ## 📑 Table of Contents
 
 - [Overview](#-overview)
 - [Features](#-features)
-- [Machine Learning Workflow](#-machine-learning-workflow)
 - [Project Highlights](#-project-highlights)
 - [Tech Stack](#-tech-stack)
 - [Project Structure](#-project-structure)
 - [Model Performance](#-model-performance)
 - [Documentation](#-documentation)
 - [Installation](#-installation)
-- [Usage](#-usage)
+- [Running the Training Pipeline](#-running-the-training-pipeline)
+- [Running the API Locally](#-running-the-api-locally)
+- [Using the API](#-using-the-api)
+- [Running with Docker](#-running-with-docker)
 - [Future Improvements](#-future-improvements)
 - [License](#-license)
 
+---
+
 ## 📖 Overview
 
-Student Academic Outcome Prediction is an end-to-end machine learning project that predicts whether a student is likely to **Dropout**, **Remain Enrolled**, or **Graduate** based on academic, demographic, and socioeconomic factors.
+Student Academic Outcome Prediction is a machine learning project for predicting one of three student outcomes:
 
-The primary objective is to identify students at risk of dropping out early, enabling educational institutions to provide timely interventions such as academic mentoring, financial assistance, counseling, and personalized learning support. :contentReference[oaicite:0]{index=0}
+- **Dropout**
+- **Enrolled**
+- **Graduate**
+
+The project uses academic, demographic, and socioeconomic information to build a multi-class classification model.
+
+The dataset used in the project was already clean and suitable for modeling. As a result, preprocessing and feature engineering were kept intentionally minimal. The primary engineering focus was placed on building and integrating modular components for model training, evaluation, experiment tracking, versioning, testing, and inference.
+
+The trained model is exposed through a **FastAPI** service that accepts student records as a semicolon-delimited CSV file and returns a prediction for every row.
 
 ---
 
 ## ✨ Features
 
-- 📊 Multi-class student outcome prediction
-- 🧹 Automated data validation and preprocessing
-- 🤖 Training and benchmarking of multiple ML models
-- 🎯 Hyperparameter optimization using **Optuna**
-- 📈 Experiment tracking with **MLflow** and **Weights & Biases**
-- 📦 Dataset and artifact versioning using **DVC**
-- 🏗️ Modular and configuration-driven project architecture
-- 🚀 FastAPI-based REST API for inference
-- 🧪 Automated testing with **Pytest**
-- 🔄 Continuous Integration using **GitHub Actions**
-- 🐳 Docker support for reproducible deployment
+### Machine Learning
+
+- Multi-class student outcome prediction
+- Benchmarking of multiple machine learning algorithms
+- Macro F1-Score used as the primary evaluation metric
+- Hyperparameter optimization using **Optuna**
+- LightGBM selected as the configured inference model
+
+### MLOps
+
+- Modular and configuration-driven architecture
+- Dataset and artifact versioning using **DVC**
+- Experiment tracking using **Weights & Biases**
+- Automated testing using **Pytest**
+- Continuous Integration using **GitHub Actions**
+
+### Inference
+
+- FastAPI-based REST API
+- CSV file-based prediction endpoint
+- Input feature validation
+- Stored model and encoder artifacts
+- Interactive Swagger and ReDoc documentation
+
+### Containerization
+
+- Dockerized FastAPI application
+- Python 3.11 runtime
+- Required system dependency for machine-learning components
+- Non-root container user
+- Model artifacts included in the Docker image
 
 ---
-
-## 🔄 Machine Learning Workflow
-
-```mermaid
-flowchart LR
-
-    A[Student Dataset]
-    B[Data Validation]
-    C[Data Preprocessing]
-    D[Model Training]
-    E[Model Evaluation]
-    F[Experiment Tracking]
-    G[Best Model]
-    H[FastAPI API]
-
-    A --> B
-    B --> C
-    C --> D
-    D --> E
-    E --> F
-    F --> G
-    G --> H
-```
-
-The workflow follows a modular pipeline where each stage performs a single responsibility—from validating raw data to deploying the best-performing model for inference. :contentReference[oaicite:1]{index=1}
 
 ## 🌟 Project Highlights
 
 | Category | Implementation |
 |----------|----------------|
 | 🏗️ Architecture | Modular, configuration-driven project structure |
-| 🤖 Machine Learning | Multi-class classification for student outcome prediction |
-| 📊 Model Development | Benchmarking of multiple machine learning algorithms |
+| 🤖 Machine Learning | Multi-class classification |
+| 📊 Model Development | Benchmarking of multiple ML algorithms |
 | 🎯 Optimization | Hyperparameter tuning using **Optuna** |
-| 📈 Experiment Tracking | **MLflow** and **Weights & Biases (W&B)** |
-| 📦 Data Versioning | **DVC** for dataset and artifact versioning |
-| 🚀 Deployment | REST API built with **FastAPI** |
-| 🧪 Testing | Automated unit testing with **Pytest** |
-| 🔄 Continuous Integration | **GitHub Actions** CI pipeline |
-| 🐳 Containerization | Docker support |
+| 📈 Experiment Tracking | **Weights & Biases (W&B)** |
+| 📦 Data Versioning | **DVC** |
+| 🚀 API | **FastAPI** |
+| 🧪 Testing | **Pytest** |
+| 🔄 Continuous Integration | **GitHub Actions** |
+| 🐳 Containerization | **Docker** |
+
+The project deliberately keeps preprocessing and feature engineering lightweight because the source dataset was already clean. This allows the implementation to emphasize the organization and integration of MLOps components.
 
 ---
 
@@ -121,17 +141,19 @@ The workflow follows a modular pipeline where each stage performs a single respo
 
 | Category | Technologies |
 |----------|--------------|
-| **Language** | Python |
+| **Language** | Python 3.11+ |
 | **Machine Learning** | Scikit-learn, LightGBM, XGBoost, CatBoost |
 | **Data Processing** | Pandas, NumPy |
 | **Hyperparameter Optimization** | Optuna |
-| **Experiment Tracking** | Weights & Biases (W&B) |
+| **Experiment Tracking** | Weights & Biases |
 | **Data Versioning** | DVC |
-| **API Development** | FastAPI |
+| **API Development** | FastAPI, Uvicorn |
+| **Model Serialization** | Joblib |
+| **Validation** | Custom `ValidateStudentData` |
+| **Configuration** | YAML / PyYAML |
 | **Testing** | Pytest |
-| **CI/CD** | GitHub Actions |
+| **CI** | GitHub Actions |
 | **Containerization** | Docker |
-| **Configuration** | YAML |
 
 ---
 
@@ -140,49 +162,87 @@ The workflow follows a modular pipeline where each stage performs a single respo
 ```text
 Student-Academic-Outcome-Prediction/
 │
-├── app/                  # FastAPI application
-├── artifacts/            # Models and generated artifacts
-├── config/               # YAML configuration
-├── data/                 # Raw and processed datasets
-├── docs/                 # Project documentation
-├── notebooks/            # Research & experimentation
-├── src/                  # Core machine learning pipeline
-├── tests/                # Unit tests
-├── utils/                # Helper utilities
+├── app/
+│   └── main.py
 │
-├── dvc.yaml              # DVC pipeline
+├── artifacts/
+│   ├── models/
+│   │   └── best_model.joblib
+│   ├── encoder.joblib
+│   ├── feature_names.joblib
+│   └── ...
+│
+├── config/
+│   └── ...
+│
+├── data/
+│
+├── entity/
+│
+├── src/
+│   ├── data/
+│   └── inference/
+│       ├── loader.py
+│       ├── predict.py
+│       └── validate.py
+│
+├── utils/
+├── tests/
+│
+├── dvc.yaml
 ├── Dockerfile
+├── requirements.txt
 ├── main.py
 └── README.md
-```
+````
+
+The API runtime uses the application code, source modules, configuration, utilities, and stored model artifacts required for inference.
+
+---
 
 ## 📊 Model Performance
 
-To identify the most suitable production model, six machine learning algorithms were trained and evaluated using the same preprocessing pipeline and evaluation strategy. **Macro F1-Score** was used as the primary evaluation metric due to the imbalanced class distribution.
+Six machine learning algorithms were trained and evaluated using the project's evaluation strategy.
 
-| Rank | Model | Accuracy | Macro F1 | Status |
-|:---:|----------------------|:-------:|:--------:|--------|
-| 🥇 | **XGBoost** | **0.7409** | **0.6642** | Finalist |
-| 🥈 | **LightGBM** | 0.7409 | 0.6605 | ✅ Production Model |
-| 🥉 | **CatBoost** | 0.7369 | 0.6520 | Runner-up |
+**Macro F1-Score** was selected as the primary metric because the target classes are imbalanced and Macro F1 evaluates performance across the classes without allowing the largest class to dominate the metric.
 
-> [!NOTE]
-> Although **XGBoost** achieved the highest Macro F1-Score, **LightGBM** was selected as the production model because it offers an excellent balance between predictive performance, inference speed, and computational efficiency.
+| Rank | Model        |  Accuracy  |  Macro F1  | Status               |
+| :--: | ------------ | :--------: | :--------: | -------------------- |
+|  🥇  | **XGBoost**  | **0.7409** | **0.6642** | Finalist             |
+|  🥈  | **LightGBM** |   0.7409   |   0.6605   | **Production Model** |
+|  🥉  | **CatBoost** |   0.7369   |   0.6520   | Runner-up            |
 
-➡️ **See the complete benchmarking process:**  
-**[Model Benchmark](docs/model_benchmark.md)**
+Although XGBoost achieved the highest Macro F1-Score in the benchmark, **LightGBM** was selected as the configured production/inference model.
+
+The inference configuration uses:
+
+```yaml
+model:
+  name: LightGBM
+  version: v1
+```
+
+### Model Artifacts
+
+The inference service uses three main artifacts:
+
+| Artifact               | Purpose                                                  |
+| ---------------------- | -------------------------------------------------------- |
+| `best_model.joblib`    | Trained prediction model                                 |
+| `encoder.joblib`       | Converts model output back to class labels               |
+| `feature_names.joblib` | Defines the expected input feature set and feature order |
 
 ---
 
 ## 📚 Documentation
 
-Detailed project documentation is available in the `docs/` directory.
+Detailed documentation is available in the `docs/` directory.
 
-| Document | Description |
-|----------|-------------|
-| 🏗️ [Project Architecture](docs/project_architecture.md) | Overview of the modular project structure and system design. |
-| ⚙️ [MLOps Practices](docs/mlops_practices.md) | MLOps workflow, experiment tracking, DVC, CI, and deployment practices. |
-| 📊 [Model Benchmark](docs/model_benchmark.md) | Model comparison, evaluation metrics, and production model selection. |
+| Document                                                 | Description                                                                      |
+| -------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| 🏗️ [Project Architecture](docs/project_architecture.md) | Overview of the modular project structure and system design.                     |
+| ⚙️ [MLOps Practices](docs/mlops_practices.md)            | MLOps workflow, experiment tracking, DVC, CI, and related engineering practices. |
+| 📊 [Model Benchmark](docs/model_benchmark.md)            | Model comparison, evaluation metrics, and production model selection.            |
 
 ---
 
@@ -198,7 +258,7 @@ cd Student-Academic-Outcome-Prediction
 
 ### 2. Create a Virtual Environment
 
-**Windows**
+#### Windows
 
 ```bash
 python -m venv .venv
@@ -206,7 +266,7 @@ python -m venv .venv
 .venv\Scripts\activate
 ```
 
-**Linux / macOS**
+#### Linux / macOS
 
 ```bash
 python3 -m venv .venv
@@ -224,44 +284,385 @@ pip install -r requirements.txt
 
 ## ⚙️ Running the Training Pipeline
 
-Execute the complete machine learning pipeline.
+Run the project's training entry point:
 
 ```bash
 python -m main
 ```
 
-This command performs the end-to-end workflow, including data validation, preprocessing, model training, evaluation, and saving the production model.
+The project uses modular components for the machine learning workflow, including validation, preprocessing, training, evaluation, and artifact generation.
+
+Because the source dataset was already clean, preprocessing and feature engineering remain intentionally limited.
 
 ---
 
-## 🚀 Running the FastAPI Server
+## 🚀 Running the API Locally
 
-Start the REST API for model inference.
+The API application is located at:
+
+```text
+app/main.py
+```
+
+Start the API using Uvicorn:
+
+```bash
+uvicorn app.main:app --host 0.0.0.0 --port 8000
+```
+
+For development, you can use:
 
 ```bash
 uvicorn app.main:app --reload
 ```
 
-After the server starts, open the interactive API documentation:
+The API is then available at:
 
 ```text
-http://127.0.0.1:8000/docs
+http://localhost:8000
 ```
 
-The Swagger UI allows you to test prediction endpoints directly from your browser.
+### Interactive Documentation
 
-> [!TIP]
-> During development, the `--reload` flag automatically reloads the server whenever source files change.
+Swagger UI:
+
+```text
+http://localhost:8000/docs
+```
+
+ReDoc:
+
+```text
+http://localhost:8000/redoc
+```
 
 ---
 
-## 🎯 Future Improvements
+## 🎯 Using the API
 
-- Cloud-based deployment (AWS / Azure / GCP)
-- Remote DVC storage for datasets and artifacts
-- End-to-end CI/CD pipeline
-- Model monitoring and performance tracking
-- Automated model retraining
+The API exposes two main endpoints.
+
+### Health Check
+
+#### `GET /`
+
+Check whether the API is running:
+
+```bash
+curl http://localhost:8000/
+```
+
+Expected response:
+
+```json
+{
+  "status": "healthy",
+  "message": "Application is working fine."
+}
+```
+
+---
+
+### Student Prediction
+
+#### `POST /predict/file`
+
+The endpoint accepts a CSV file and returns a prediction for every row.
+
+The multipart form field must be named:
+
+```text
+file
+```
+
+Example:
+
+```bash
+curl -X POST \
+  -F "file=@test_sample.csv" \
+  http://localhost:8000/predict/file
+```
+
+### Input Requirements
+
+The uploaded CSV must:
+
+* Use `;` as the column delimiter.
+* Contain the expected feature names.
+* Not contain unexpected columns.
+* Not omit required features.
+* Preserve the expected data representation used during training.
+
+The API reads the file using:
+
+```python
+pd.read_csv(file.file, sep=";")
+```
+
+The expected feature set and ordering are loaded from:
+
+```text
+artifacts/feature_names.joblib
+```
+
+The validator checks for missing and unexpected columns and reorders columns to match the expected training feature order.
+
+### Example Response
+
+```json
+{
+  "filename": "test_sample.csv",
+  "rows": 10,
+  "predictions": [
+    "Dropout",
+    "Graduate",
+    "Enrolled"
+  ]
+}
+```
+
+The prediction order corresponds to the order of rows in the uploaded CSV.
+
+### API Error Responses
+
+#### `400 Bad Request`
+
+Returned when input validation fails.
+
+Example:
+
+```json
+{
+  "detail": "Missing required columns: ['Course']"
+}
+```
+
+Another possible validation response:
+
+```json
+{
+  "detail": "Unexpected columns found: ['Unknown feature']"
+}
+```
+
+#### `500 Internal Server Error`
+
+Returned when an unexpected error occurs during prediction:
+
+```json
+{
+  "detail": "Internal server error."
+}
+```
+
+---
+
+## 🐳 Running with Docker
+
+The project includes a Dockerfile for packaging the FastAPI application together with its required dependencies, source code, configuration, and model artifacts.
+
+The Docker image uses:
+
+```dockerfile
+FROM python:3.11-slim
+```
+
+The image also installs:
+
+```text
+libgomp1
+```
+
+which is required by native machine-learning components using the GNU OpenMP runtime.
+
+The container starts the FastAPI application using:
+
+```dockerfile
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+```
+
+### 1. Build the Docker Image
+
+Run this from the project root:
+
+```bash
+docker build -t student-success-api .
+```
+
+The project root should contain:
+
+```text
+Dockerfile
+requirements.txt
+app/
+src/
+utils/
+config/
+artifacts/
+entity/
+```
+
+### 2. Run the Container
+
+```bash
+docker run --name student-success-api -p 8000:8000 student-success-api
+```
+
+The mapping:
+
+```text
+8000:8000
+```
+
+publishes host port `8000` to container port `8000`.
+
+The API is then available at:
+
+```text
+http://localhost:8000
+```
+
+Swagger UI:
+
+```text
+http://localhost:8000/docs
+```
+
+### 3. Test the Container
+
+Health check:
+
+```bash
+curl http://localhost:8000/
+```
+
+Prediction:
+
+```bash
+curl -X POST \
+  -F "file=@test_sample.csv" \
+  http://localhost:8000/predict/file
+```
+
+### 4. View Container Logs
+
+```bash
+docker logs student-success-api
+```
+
+Follow logs continuously:
+
+```bash
+docker logs -f student-success-api
+```
+
+### 5. Rebuild After Code Changes
+
+If application code or dependencies change:
+
+```bash
+docker build -t student-success-api .
+```
+
+If a container with the same name already exists:
+
+```bash
+docker rm -f student-success-api
+```
+
+Then run the new image:
+
+```bash
+docker run --name student-success-api -p 8000:8000 student-success-api
+```
+
+### Docker Troubleshooting
+
+#### Container name already in use
+
+Check existing containers:
+
+```bash
+docker ps -a
+```
+
+Remove the existing container:
+
+```bash
+docker rm -f student-success-api
+```
+
+#### `Attribute "app" not found`
+
+The FastAPI application is located at:
+
+```text
+app/main.py
+```
+
+The correct Uvicorn module path is:
+
+```text
+app.main:app
+```
+
+Do not use:
+
+```text
+main:app
+```
+
+unless the FastAPI application object is actually defined in the root `main.py`.
+
+#### `libgomp.so.1` not found
+
+Rebuild the image so that the `libgomp1` system package is installed:
+
+```bash
+docker build --no-cache -t student-success-api .
+```
+
+#### API is not accessible
+
+Check whether the container is running:
+
+```bash
+docker ps
+```
+
+Check the logs:
+
+```bash
+docker logs student-success-api
+```
+
+Verify that the port mapping contains:
+
+```text
+0.0.0.0:8000->8000/tcp
+```
+
+Then open:
+
+```text
+http://localhost:8000/
+```
+
+---
+
+## 🔮 Future Improvements
+
+The current implementation focuses on the machine learning workflow, MLOps components, local API inference, and Docker-based containerization.
+
+Planned improvements include:
+
+* ☁️ Cloud-based deployment on AWS / Azure / GCP
+* 🔄 Automated deployment / CD pipeline
+* 📦 Remote DVC storage for datasets and artifacts
+* 📊 Model monitoring and performance tracking
+* ♻️ Automated model retraining
+
+These are planned extensions and are **not part of the current implementation**.
 
 ---
 
@@ -277,4 +678,5 @@ See the [LICENSE](LICENSE) file for details.
 
 If you found this project useful, consider giving it a ⭐ on GitHub. It helps others discover the project and supports future development.
 
-
+```
+```
