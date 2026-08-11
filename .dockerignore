@@ -1,4 +1,31 @@
-# data 
-data/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
 
-.git
+.pytest_cache/
+.mypy_cache/
+
+.git/
+.github/
+
+.dvc/
+.dvcignore
+
+notebooks/
+tests/
+
+wandb/
+remote_storage/
+catboost_info/
+
+*.ipynb
+*.log
+
+.env
+.env.*
+
+README.md
+docs/
+
+data/
