@@ -1,0 +1,16 @@
+{
+    "model_name": "XGBoost",
+    "best_trial": 75,
+    "best_params": {
+        "n_estimators": 793,
+        "learning_rate": 0.07585889011659572,
+        "max_depth": 4,
+        "min_child_weight": 2,
+        "subsample": 0.8979146985252445,
+        "colsample_bytree": 0.7445933533191227,
+        "gamma": 0.7235077637726208,
+        "reg_alpha": 0.003036500880302069,
+        "reg_lambda": 1.587516557021529e-05
+    },
+    "best_value": 0.6806956164348918
+}
