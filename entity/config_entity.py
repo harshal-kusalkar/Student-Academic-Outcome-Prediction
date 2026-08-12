@@ -62,26 +62,24 @@ class TrainingConfig(BaseModel):
 
 
 class ModelParamsConfig(BaseModel):
-    objective: str
-    boosting_type: str
-    metric: str
-    verbosity: int
+    objective: str = "multi:softprob"
+    eval_metric: str = "mlogloss"
+    booster: str = "gbtree"
+    verbosity: int = 0
 
     n_estimators: int
     learning_rate: float
     max_depth: int
-    num_leaves: int
-    min_child_samples: int
     min_child_weight: float
     subsample: float
-    subsample_freq: int
     colsample_bytree: float
+    gamma: float                       # Formerly min_split_gain
     reg_alpha: float
     reg_lambda: float
-    min_split_gain: float
 
 
 class ExperimentConfig(BaseModel):
+    model_name: str = "XGBoost"
     best_trial: int
     cv_metric: str
     best_cv_score: float

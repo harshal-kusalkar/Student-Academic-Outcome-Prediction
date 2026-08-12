@@ -57,27 +57,27 @@ training:
   n_jobs: -1
 
 model_params:
-  objective: multiclass
-  boosting_type: gbdt
-  metric: multi_logloss
-  verbosity: -1
+  # General & Objective Parameters
+  objective: "multi:softprob"  # XGBoost multiclass objective (returns probabilities)
+  eval_metric: "mlogloss"      # Standard multiclass logloss metric
+  booster: "gbtree"            # Tree-based boosting model
+  verbosity: 0
 
-  n_estimators: 200
-  learning_rate: 0.0813878228331522
-  max_depth: 5
-  num_leaves: 121
-  min_child_samples: 23
-  min_child_weight: 0.38065697834121526
-  subsample: 0.9997833996022827
-  subsample_freq: 6
-  colsample_bytree: 0.7570918902810027
-  reg_alpha: 0.04897016843787337
-  reg_lambda: 0.06909577691783778
-  min_split_gain: 0.5434142910423587
+  # Optimized Hyperparameters (Trial 75)
+  n_estimators: 793
+  learning_rate: 0.07585889011659572
+  max_depth: 4
+  min_child_weight: 2
+  subsample: 0.8979146985252445
+  colsample_bytree: 0.7445933533191227
+  gamma: 0.7235077637726208             # Minimum loss reduction for partition (formerly min_split_gain)
+  reg_alpha: 0.003036500880302069       # L1 regularization
+  reg_lambda: 1.587516557021529e-05     # L2 regularization
 
 experiment:
+  model_name: "XGBoost"
   best_trial: 24
-  cv_metric: f1_macro
+  cv_metric: "f1_macro"
   best_cv_score: 0.6739500714665354
     
 

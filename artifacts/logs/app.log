@@ -521,3 +521,21 @@ AttributeError: 'numpy.ndarray' object has no attribute 'to'
 2026-08-11 12:51:19,718 | src.inference.loader | INFO | Encoder loaded successfully.
 2026-08-11 12:51:19,718 | utils.io | INFO | Loaded model: artifacts\feature_names.joblib
 2026-08-11 12:51:19,718 | src.inference.loader | INFO | Feature names loaded successfully.
+2026-08-12 18:56:24,887 | __main__ | INFO | ======== Running  DataPipeline ==========
+2026-08-12 18:56:24,900 | __main__ | INFO | config file loaded
+2026-08-12 18:56:24,949 | utils.io | INFO | Loaded CSV: data\raw\student_academic_data\data.csv
+2026-08-12 18:56:24,949 | src.data.data_validation | INFO | Data validation started.
+2026-08-12 18:56:24,960 | src.data.data_cleaning | INFO | Data cleaning started
+2026-08-12 18:56:24,969 | src.data.data_cleaning | INFO | columns droped from X_train and X_test
+2026-08-12 18:56:24,969 | src.data.data_cleaning | INFO | Data cleaning complete
+2026-08-12 18:56:24,969 | src.data.split | INFO | data split start:
+2026-08-12 18:56:24,978 | src.data.split | INFO | Training and test data created
+2026-08-12 18:56:24,979 | src.data.label_encoder | INFO | Encoding target labels
+2026-08-12 18:56:24,979 | src.data.label_encoder | INFO | Encoded 3 classes
+2026-08-12 18:56:24,983 | utils.io | INFO | Saved JSON: artifacts\reports\validation.json
+2026-08-12 18:56:24,985 | utils.io | INFO | Saved model: artifacts\encoder.joblib
+2026-08-12 18:56:25,029 | utils.io | INFO | Saved CSV: data\processed\X_train.csv
+2026-08-12 18:56:25,044 | utils.io | INFO | Saved CSV: data\processed\X_test.csv
+2026-08-12 18:56:25,044 | utils.io | INFO | Saved NumPy array: data\processed\y_train.npy
+2026-08-12 18:56:25,052 | utils.io | INFO | Saved NumPy array: data\processed\y_test.npy
+2026-08-12 18:56:25,055 | __main__ | INFO | ======= DataPipeline run successfully =========

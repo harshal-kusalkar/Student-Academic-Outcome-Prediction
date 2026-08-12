@@ -1,6 +1,6 @@
 from time import perf_counter
 
-from lightgbm import LGBMClassifier
+from xgboost import XGBClassifier
 
 from utils.logger import get_logger
 
@@ -11,12 +11,12 @@ def train_model(
     X_train,
     y_train,
     config,
-) -> LGBMClassifier:
+) -> XGBClassifier:
     """
-    Train the LightGBM classifier using the configured hyperparameters.
+    Train the XGBoost classifier using the configured hyperparameters.
     """
 
-    logger.info("Starting LightGBM training...")
+    logger.info("Starting XGBoost model training...")
     logger.info(
         "Training data shape: %d samples, %d features",
         X_train.shape[0],
@@ -25,12 +25,12 @@ def train_model(
 
     params = config.model_params.model_dump()
 
-    logger.debug("Model hyperparameters: %s", params)
+    logger.debug("XGBoost hyperparameters: %s", params)
 
     start = perf_counter()
 
     try:
-        model = LGBMClassifier(
+        model = XGBClassifier(
             **params,
             random_state=config.training.random_state,
             n_jobs=config.training.n_jobs,
@@ -39,7 +39,7 @@ def train_model(
         model.fit(X_train, y_train)
 
     except Exception:
-        logger.exception("Model training failed.")
+        logger.exception("XGBoost model training failed.")
         raise
 
     elapsed = perf_counter() - start
