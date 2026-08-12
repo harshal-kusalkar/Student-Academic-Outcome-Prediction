@@ -2,7 +2,7 @@
 
 ## Overview
 
-The project follows a **modular, configuration-driven architecture** that separates each stage of the machine learning lifecycle into independent components. This design improves maintainability, simplifies testing, and makes it easier to extend the pipeline with new models, preprocessing techniques, or deployment methods.
+The project follows a **modular, configuration-driven architecture** that separates each stage of the machine learning lifecycle into independent components. This design improves maintainability, simplifies testing, and makes it easier to extend the pipeline with new models, preprocessing techniques.
 
 ---
 
@@ -15,7 +15,6 @@ The architecture is designed around the following principles:
 - Configuration-driven workflows
 - Reproducible experiments
 - Scalable project structure
-- Production-ready deployment
 
 ---
 
@@ -60,10 +59,9 @@ Student-Academic-Dropout-Enrollment-Graduation-Prediction/
 ├── notebooks/            # Research & experimentation
 ├── src/
 │   ├── data/
-│   ├── features/
 │   ├── pipeline/
 │   ├── models/
-│   └── evaluation/
+│   
 ├── tests/                # Unit tests
 ├── utils/                # Utility modules
 ├── Dockerfile

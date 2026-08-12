@@ -56,41 +56,6 @@ The FastAPI application initializes the model service and validator during appli
 
 ---
 
-## Project Structure
-
-The API-related project structure is:
-
-```text
-student-dropout-enr...
-├── app/
-│   └── main.py
-├── artifacts/
-│   ├── models/
-│   │   └── best_model.joblib
-│   ├── encoder.joblib
-│   ├── feature_names.joblib
-│   └── ...
-├── config/
-│   └── ...
-├── data/
-├── entity/
-├── src/
-│   ├── data/
-│   └── inference/
-│       ├── loader.py
-│       ├── predict.py
-│       └── validate.py
-├── utils/
-├── tests/
-├── Dockerfile
-├── requirements.txt
-└── main.py
-```
-
-Only the application and runtime dependencies are required inside the Docker image. The supplied Dockerfile copies `app`, `src`, `utils`, `config`, `artifacts`, and `entity` into the image.
-
----
-
 # API
 
 ## Base URL

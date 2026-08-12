@@ -94,7 +94,6 @@ flowchart LR
 Training experiments are tracked using:
 
 - Weights & Biases (W&B)
-- MLflow
 
 Each experiment records:
 
@@ -141,7 +140,6 @@ Automated testing helps maintain code quality throughout development.
 The trained model is prepared for production using:
 
 - FastAPI REST API
-- Streamlit Web Application
 - Docker
 
 These components provide a consistent environment for serving predictions.
@@ -155,11 +153,11 @@ These components provide a consistent environment for serving predictions.
 | Version Control | Git, GitHub |
 | Configuration | YAML |
 | Data Versioning | DVC |
-| Experiment Tracking | W&B, MLflow |
+| Experiment Tracking | W&B |
 | Hyperparameter Optimization | Optuna |
 | Testing | Pytest |
 | CI | GitHub Actions |
-| Deployment | FastAPI, Streamlit |
+| Deployment | FastAPI |
 | Containerization | Docker |
 
 ---
