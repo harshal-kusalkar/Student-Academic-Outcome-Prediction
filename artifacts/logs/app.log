@@ -539,3 +539,27 @@ AttributeError: 'numpy.ndarray' object has no attribute 'to'
 2026-08-12 18:56:25,044 | utils.io | INFO | Saved NumPy array: data\processed\y_train.npy
 2026-08-12 18:56:25,052 | utils.io | INFO | Saved NumPy array: data\processed\y_test.npy
 2026-08-12 18:56:25,055 | __main__ | INFO | ======= DataPipeline run successfully =========
+2026-08-12 19:06:29,368 | __main__ | INFO | ========== Training Pipeline Started ==========
+2026-08-12 19:06:29,375 | __main__ | INFO | config file loaded
+2026-08-12 19:06:29,392 | utils.io | INFO | Loaded CSV: data\processed\X_train.csv
+2026-08-12 19:06:29,393 | utils.io | INFO | Loaded NumPy array: data\processed\y_train.npy
+2026-08-12 19:06:29,394 | src.model.train | INFO | Starting XGBoost model training...
+2026-08-12 19:06:29,394 | src.model.train | INFO | Training data shape: 3539 samples, 21 features
+2026-08-12 19:06:32,082 | src.model.train | INFO | Training completed successfully.
+2026-08-12 19:06:32,082 | src.model.train | INFO | Training time: 2.69 seconds
+2026-08-12 19:06:32,116 | utils.io | INFO | Saved model: artifacts\models\best_model.joblib
+2026-08-12 19:06:32,116 | utils.io | INFO | Saved model: artifacts\feature_names.joblib
+2026-08-12 19:06:32,118 | __main__ | INFO | Training Pipeline Complete.
+2026-08-12 19:07:36,115 | __main__ | INFO | ========== Evaluation Started ==========
+2026-08-12 19:07:36,123 | __main__ | INFO | Configuration loaded successfully.
+2026-08-12 19:07:36,130 | utils.io | INFO | Loaded CSV: data\processed\X_test.csv
+2026-08-12 19:07:36,131 | utils.io | INFO | Loaded NumPy array: data\processed\y_test.npy
+2026-08-12 19:07:36,131 | __main__ | INFO | Loaded test data: 885 samples, 21 features
+2026-08-12 19:07:37,172 | utils.io | INFO | Loaded model: artifacts\models\best_model.joblib
+2026-08-12 19:07:37,174 | __main__ | INFO | Model loaded successfully.
+2026-08-12 19:07:37,174 | src.model.eval | INFO | Starting model evaluation...
+2026-08-12 19:07:48,370 | src.model.eval | INFO | Evaluation completed successfully. F1 Macro: 0.6631
+2026-08-12 19:07:48,373 | utils.io | INFO | Saved JSON: artifacts\eval_result.json
+2026-08-12 19:07:48,375 | utils.io | INFO | Saved JSON: artifacts\classification_report.joblib
+2026-08-12 19:07:48,376 | __main__ | INFO | Evaluation artifacts saved.
+2026-08-12 19:07:48,376 | __main__ | INFO | ========== Evaluation Completed ==========

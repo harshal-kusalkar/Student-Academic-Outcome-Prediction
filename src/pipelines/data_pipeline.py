@@ -53,8 +53,7 @@ def run():
 
     logger.info("======= DataPipeline run successfully =========")
 
-if __name__ == "__main__":
-    run()
+
 
 
 

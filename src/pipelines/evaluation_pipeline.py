@@ -74,3 +74,6 @@ def run():
     logger.info("Evaluation artifacts saved.")
 
     logger.info("========== Evaluation Completed ==========")
+
+if __name__ == "__main__":
+    run()
