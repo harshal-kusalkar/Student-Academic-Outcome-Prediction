@@ -1,83 +1,79 @@
-preprocessing:
-  drop_columns:
+DATA_PATHS:
+  data_path: data/raw/student_academic_data/data.csv
 
-    # Redundant / low-importance features
-    - Educational special needs
-    - GDP
+TARGET:
+  name: Target
+  classes:
+    - Dropout
+    - Enrolled
+    - Graduate
+
+FEATURES:
+
+  categorical:
+    - Marital status
+    - Application mode
+    - Course
+    - Previous qualification
     - Nacionality
-    - International
-    - Displaced
-    - Unemployment rate
+    - Mother's qualification
+    - Father's qualification
+    - Mother's occupation
+    - Father's occupation
+
+  binary:
     - Daytime/evening attendance
+    - Displaced
+    - Educational special needs
+    - Debtor
+    - Tuition fees up to date
+    - Gender
+    - Scholarship holder
+    - International
+
+  numerical:
+    - Application order
+    - Previous qualification (grade)
+    - Admission grade
+    - Age at enrollment
+
     - Curricular units 1st sem (credited)
+    - Curricular units 1st sem (enrolled)
+    - Curricular units 1st sem (evaluations)
+    - Curricular units 1st sem (approved)
+    - Curricular units 1st sem (grade)
     - Curricular units 1st sem (without evaluations)
 
-    # Second semester features (data leakage)
     - Curricular units 2nd sem (credited)
     - Curricular units 2nd sem (enrolled)
     - Curricular units 2nd sem (evaluations)
     - Curricular units 2nd sem (approved)
     - Curricular units 2nd sem (grade)
     - Curricular units 2nd sem (without evaluations)
-  
-  target_col: Target
-  target:
-    - Dropout
-    - Enrolled 
-    - Graduate
-  
-data_split:
+
+    - Unemployment rate
+    - Inflation rate
+    - GDP
+
+PREPROCESSING:
+  numerical:
+    imputer:
+      strategy: median
+    scaler:
+      type: standard
+
+  categorical:
+    imputer:
+      strategy: most_frequent
+    encoder:
+      type: onehot
+      handle_unknown: ignore
+
+  binary:
+    imputer:
+      strategy: most_frequent
+
+DATA_SPLIT:
   test_size: 0.2
   random_state: 42
-
-data_paths:
-  data_dir_path: data
-
-
-artifacts:
-  model_path: artifacts/models/best_model.joblib
-  encoder_path: artifacts/encoder.joblib
-  feature_names_path: artifacts/feature_names.joblib
-  data_validation_path: artifacts/reports/validation.json
-  eval_result_path: artifacts/eval_result.json
-  classification_report_path: artifacts/classification_report.joblib
-
-processed_data:
-  X_train_path: data/processed/X_train.csv
-  X_test_path: data/processed/X_test.csv
-  y_train_path: data/processed/y_train.npy
-  y_test_path: data/processed/y_test.npy
-
-model:
-  name: LightGBM
-  version: v1
-
-training:
-  random_state: 42
-  n_jobs: -1
-
-model_params:
-  # General & Objective Parameters
-  objective: "multi:softprob"  # XGBoost multiclass objective (returns probabilities)
-  eval_metric: "mlogloss"      # Standard multiclass logloss metric
-  booster: "gbtree"            # Tree-based boosting model
-  verbosity: 0
-
-  # Optimized Hyperparameters (Trial 75)
-  n_estimators: 793
-  learning_rate: 0.07585889011659572
-  max_depth: 4
-  min_child_weight: 2
-  subsample: 0.8979146985252445
-  colsample_bytree: 0.7445933533191227
-  gamma: 0.7235077637726208             # Minimum loss reduction for partition (formerly min_split_gain)
-  reg_alpha: 0.003036500880302069       # L1 regularization
-  reg_lambda: 1.587516557021529e-05     # L2 regularization
-
-experiment:
-  model_name: "XGBoost"
-  best_trial: 24
-  cv_metric: "f1_macro"
-  best_cv_score: 0.6739500714665354
-    
-
+  stratify: true
