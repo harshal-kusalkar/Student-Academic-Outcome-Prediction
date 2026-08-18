@@ -2,7 +2,7 @@ from src.data import data_cleaning
 from src.data.data_validation import DataValidation
 from src.data import split
 
-from utils.io import load_csv, save_json
+from utils.io import load_csv, save_json, save_csv, save_numpy
 from utils.logger import get_logger
 from utils.load_config import load_config
 
@@ -97,6 +97,27 @@ def run():
     )
 
     # ==================================================
+    # Save Results
+    # ==================================================
+
+    save_csv(
+        data=X_train,
+        path=config.DATA_PATHS.X_train_path
+        )
+    save_csv(
+        data=X_test,
+        path=config.DATA_PATHS.X_test_path
+        )
+    save_numpy(
+    data=y_train.to_numpy(),
+    path=config.DATA_PATHS.y_train_path,
+      )
+    save_numpy(
+    data=y_test.to_numpy(),
+    path=config.DATA_PATHS.y_test_path,
+       )
+
+    # ==================================================
     # Pipeline completed
     # ==================================================
     
@@ -106,12 +127,7 @@ def run():
     )
     logger.info("=" * 60)
 
-    return (
-        X_train,
-        X_test,
-        y_train,
-        y_test,
-    )
+
 
 
 if __name__ == "__main__":
