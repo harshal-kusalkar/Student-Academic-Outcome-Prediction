@@ -1,0 +1,17 @@
+{
+    "status": "passed",
+    "data_shape": {
+        "rows": 4424,
+        "columns": 37
+    },
+    "missing_values": {},
+    "duplicate_values": 0,
+    "target": {
+        "column": "Target",
+        "classes": [
+            "Dropout",
+            "Enrolled",
+            "Graduate"
+        ]
+    }
+}
