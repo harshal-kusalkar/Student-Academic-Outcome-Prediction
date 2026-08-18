@@ -49,7 +49,7 @@ def create_encoder(config):
 
         return OneHotEncoder(
             handle_unknown=config.handle_unknown,
-            sparse_output=True,
+            sparse_output=False,
         )
 
     if config.type == "ordinal":
@@ -136,17 +136,17 @@ def create_preprocessor(config):
             (
                 "numerical",
                 numerical_pipeline,
-                config.features.numerical,
+                config.features.raw.numerical,
             ),
             (
                 "categorical",
                 categorical_pipeline,
-                config.features.categorical,
+                config.features.raw.categorical,
             ),
             (
                 "binary",
                 binary_pipeline,
-                config.features.binary,
+                config.features.raw.binary,
             ),
         ],
         remainder="drop",
