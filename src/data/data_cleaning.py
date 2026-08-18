@@ -41,7 +41,7 @@ def clean_data(
     # 2. Remove configured columns
     # -----------------------------------------
 
-    drop_columns = config.preprocessing.drop_columns
+    drop_columns = config.PREPROCESSING.drop_columns
 
     existing_columns = [
         column
