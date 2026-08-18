@@ -563,3 +563,263 @@ AttributeError: 'numpy.ndarray' object has no attribute 'to'
 2026-08-12 19:07:48,375 | utils.io | INFO | Saved JSON: artifacts\classification_report.joblib
 2026-08-12 19:07:48,376 | __main__ | INFO | Evaluation artifacts saved.
 2026-08-12 19:07:48,376 | __main__ | INFO | ========== Evaluation Completed ==========
+2026-08-17 19:01:29,413 | src.data.data_validation | INFO | Data validation started.
+2026-08-17 19:01:29,413 | src.data.data_validation | INFO | Dataset shape: rows=3, columns=6
+2026-08-17 19:01:29,413 | src.data.data_validation | INFO | Column validation passed.
+2026-08-17 19:01:29,428 | src.data.data_validation | INFO | No missing values detected.
+2026-08-17 19:01:29,437 | src.data.data_validation | INFO | No duplicate rows detected.
+2026-08-17 19:01:29,437 | src.data.data_validation | INFO | Target validation passed.
+2026-08-17 19:01:29,438 | src.data.data_validation | INFO | Numerical feature validation passed.
+2026-08-17 19:01:29,438 | src.data.data_validation | INFO | Binary feature validation passed.
+2026-08-17 19:01:29,438 | src.data.data_validation | INFO | Data validation completed successfully.
+2026-08-17 19:01:29,442 | src.data.data_validation | INFO | Data validation started.
+2026-08-17 19:01:29,442 | src.data.data_validation | ERROR | Dataset is empty.
+2026-08-17 19:01:29,446 | src.data.data_validation | INFO | Data validation started.
+2026-08-17 19:01:29,446 | src.data.data_validation | INFO | Dataset shape: rows=3, columns=5
+2026-08-17 19:01:29,447 | src.data.data_validation | ERROR | Missing columns: ['Age']
+2026-08-17 19:01:29,451 | src.data.data_validation | INFO | Data validation started.
+2026-08-17 19:01:29,451 | src.data.data_validation | INFO | Dataset shape: rows=3, columns=6
+2026-08-17 19:01:29,451 | src.data.data_validation | INFO | Column validation passed.
+2026-08-17 19:01:29,452 | src.data.data_validation | WARNING | Missing values detected: {'Age': 1}
+2026-08-17 19:01:29,455 | src.data.data_validation | INFO | No duplicate rows detected.
+2026-08-17 19:01:29,455 | src.data.data_validation | INFO | Target validation passed.
+2026-08-17 19:01:29,456 | src.data.data_validation | INFO | Numerical feature validation passed.
+2026-08-17 19:01:29,457 | src.data.data_validation | INFO | Binary feature validation passed.
+2026-08-17 19:01:29,457 | src.data.data_validation | INFO | Data validation completed successfully.
+2026-08-17 19:01:29,463 | src.data.data_validation | INFO | Data validation started.
+2026-08-17 19:01:29,464 | src.data.data_validation | INFO | Dataset shape: rows=4, columns=6
+2026-08-17 19:01:29,464 | src.data.data_validation | INFO | Column validation passed.
+2026-08-17 19:01:29,464 | src.data.data_validation | INFO | No missing values detected.
+2026-08-17 19:01:29,465 | src.data.data_validation | WARNING | Duplicate rows detected: 1
+2026-08-17 19:01:29,465 | src.data.data_validation | INFO | Target validation passed.
+2026-08-17 19:01:29,465 | src.data.data_validation | INFO | Numerical feature validation passed.
+2026-08-17 19:01:29,466 | src.data.data_validation | INFO | Binary feature validation passed.
+2026-08-17 19:01:29,466 | src.data.data_validation | INFO | Data validation completed successfully.
+2026-08-17 19:01:29,470 | src.data.data_validation | INFO | Data validation started.
+2026-08-17 19:01:29,471 | src.data.data_validation | INFO | Dataset shape: rows=3, columns=6
+2026-08-17 19:01:29,471 | src.data.data_validation | INFO | Column validation passed.
+2026-08-17 19:01:29,472 | src.data.data_validation | INFO | No missing values detected.
+2026-08-17 19:01:29,473 | src.data.data_validation | INFO | No duplicate rows detected.
+2026-08-17 19:01:29,473 | src.data.data_validation | ERROR | Target classes do not match.
+2026-08-17 19:01:29,479 | src.data.data_validation | INFO | Data validation started.
+2026-08-17 19:01:29,479 | src.data.data_validation | INFO | Dataset shape: rows=3, columns=6
+2026-08-17 19:01:29,479 | src.data.data_validation | INFO | Column validation passed.
+2026-08-17 19:01:29,480 | src.data.data_validation | INFO | No missing values detected.
+2026-08-17 19:01:29,480 | src.data.data_validation | INFO | No duplicate rows detected.
+2026-08-17 19:01:29,480 | src.data.data_validation | INFO | Target validation passed.
+2026-08-17 19:01:29,481 | src.data.data_validation | ERROR | Invalid numerical columns: ['Age']
+2026-08-17 19:01:29,486 | src.data.data_validation | INFO | Data validation started.
+2026-08-17 19:01:29,487 | src.data.data_validation | INFO | Dataset shape: rows=3, columns=6
+2026-08-17 19:01:29,487 | src.data.data_validation | INFO | Column validation passed.
+2026-08-17 19:01:29,487 | src.data.data_validation | INFO | No missing values detected.
+2026-08-17 19:01:29,487 | src.data.data_validation | INFO | No duplicate rows detected.
+2026-08-17 19:01:29,487 | src.data.data_validation | INFO | Target validation passed.
+2026-08-17 19:01:29,487 | src.data.data_validation | INFO | Numerical feature validation passed.
+2026-08-17 19:01:29,488 | src.data.data_validation | ERROR | Invalid binary feature values: {'Gender': [np.int64(0), np.int64(1), np.int64(2)]}
+2026-08-17 19:01:29,490 | src.data.data_validation | INFO | Data validation started.
+2026-08-17 19:01:29,507 | src.data.data_validation | INFO | Checking dataset path: C:\Users\Asus\AppData\Local\Temp\pytest-of-Asus\pytest-0\test_validate_path0\data.csv
+2026-08-17 19:01:29,508 | src.data.data_validation | INFO | Dataset path validation passed.
+2026-08-17 19:19:33,511 | __main__ | INFO | ============================================================
+2026-08-17 19:19:33,511 | __main__ | INFO | DATA VALIDATION PIPELINE STARTED
+2026-08-17 19:19:33,511 | __main__ | INFO | ============================================================
+2026-08-17 19:19:33,516 | __main__ | INFO | Configuration loaded successfully.
+2026-08-17 19:19:33,516 | __main__ | INFO | Loading dataset from: data\raw\student_academic_data\data.csv
+2026-08-17 19:19:33,554 | utils.io | INFO | Loaded CSV: data\raw\student_academic_data\data.csv
+2026-08-17 19:19:33,554 | __main__ | INFO | Dataset loaded. Shape: (4424, 37)
+2026-08-17 19:19:33,554 | src.data.data_validation | INFO | Data validation started.
+2026-08-17 19:19:33,554 | src.data.data_validation | INFO | Dataset shape: rows=4424, columns=37
+2026-08-17 19:19:33,555 | src.data.data_validation | ERROR | Missing columns: ['Daytime/evening attendance']
+2026-08-18 18:51:57,299 | __main__ | INFO | ============================================================
+2026-08-18 18:51:57,301 | __main__ | INFO | DATA VALIDATION PIPELINE STARTED
+2026-08-18 18:51:57,302 | __main__ | INFO | ============================================================
+2026-08-18 18:51:57,310 | utils.load_config | DEBUG | config file loaded.
+2026-08-18 18:51:57,310 | __main__ | INFO | Configuration loaded successfully.
+2026-08-18 18:51:57,310 | __main__ | INFO | Loading dataset from: data\raw\student_academic_data\data.csv
+2026-08-18 18:51:57,371 | utils.io | INFO | Loaded CSV: data\raw\student_academic_data\data.csv
+2026-08-18 18:51:57,371 | __main__ | INFO | Dataset loaded. Shape: (4424, 37)
+2026-08-18 18:51:57,371 | src.data.data_validation | INFO | Data validation started.
+2026-08-18 18:51:57,371 | src.data.data_validation | INFO | Dataset shape: rows=4424, columns=37
+2026-08-18 18:51:57,372 | src.data.data_validation | ERROR | Missing columns: ['Daytime/evening attendance']
+2026-08-18 18:58:06,703 | __main__ | INFO | ============================================================
+2026-08-18 18:58:06,703 | __main__ | INFO | DATA VALIDATION PIPELINE STARTED
+2026-08-18 18:58:06,703 | __main__ | INFO | ============================================================
+2026-08-18 18:58:06,703 | utils.load_config | DEBUG | config file loaded.
+2026-08-18 18:58:06,703 | __main__ | INFO | Configuration loaded successfully.
+2026-08-18 18:58:06,703 | __main__ | INFO | Loading dataset from: data\raw\student_academic_data\data.csv
+2026-08-18 18:58:06,731 | utils.io | INFO | Loaded CSV: data\raw\student_academic_data\data.csv
+2026-08-18 18:58:06,731 | __main__ | INFO | Dataset loaded. Shape: (4424, 37)
+2026-08-18 18:58:06,731 | __main__ | DEBUG | 'Marital status'
+2026-08-18 18:58:06,731 | __main__ | DEBUG | 'Application mode'
+2026-08-18 18:58:06,731 | __main__ | DEBUG | 'Application order'
+2026-08-18 18:58:06,731 | __main__ | DEBUG | 'Course'
+2026-08-18 18:58:06,731 | __main__ | DEBUG | 'Daytime/evening attendance\t'
+2026-08-18 18:58:06,731 | __main__ | DEBUG | 'Previous qualification'
+2026-08-18 18:58:06,731 | __main__ | DEBUG | 'Previous qualification (grade)'
+2026-08-18 18:58:06,731 | __main__ | DEBUG | 'Nacionality'
+2026-08-18 18:58:06,731 | __main__ | DEBUG | "Mother's qualification"
+2026-08-18 18:58:06,731 | __main__ | DEBUG | "Father's qualification"
+2026-08-18 18:58:06,731 | __main__ | DEBUG | "Mother's occupation"
+2026-08-18 18:58:06,731 | __main__ | DEBUG | "Father's occupation"
+2026-08-18 18:58:06,731 | __main__ | DEBUG | 'Admission grade'
+2026-08-18 18:58:06,731 | __main__ | DEBUG | 'Displaced'
+2026-08-18 18:58:06,731 | __main__ | DEBUG | 'Educational special needs'
+2026-08-18 18:58:06,731 | __main__ | DEBUG | 'Debtor'
+2026-08-18 18:58:06,731 | __main__ | DEBUG | 'Tuition fees up to date'
+2026-08-18 18:58:06,731 | __main__ | DEBUG | 'Gender'
+2026-08-18 18:58:06,731 | __main__ | DEBUG | 'Scholarship holder'
+2026-08-18 18:58:06,738 | __main__ | DEBUG | 'Age at enrollment'
+2026-08-18 18:58:06,738 | __main__ | DEBUG | 'International'
+2026-08-18 18:58:06,738 | __main__ | DEBUG | 'Curricular units 1st sem (credited)'
+2026-08-18 18:58:06,738 | __main__ | DEBUG | 'Curricular units 1st sem (enrolled)'
+2026-08-18 18:58:06,738 | __main__ | DEBUG | 'Curricular units 1st sem (evaluations)'
+2026-08-18 18:58:06,738 | __main__ | DEBUG | 'Curricular units 1st sem (approved)'
+2026-08-18 18:58:06,738 | __main__ | DEBUG | 'Curricular units 1st sem (grade)'
+2026-08-18 18:58:06,738 | __main__ | DEBUG | 'Curricular units 1st sem (without evaluations)'
+2026-08-18 18:58:06,739 | __main__ | DEBUG | 'Curricular units 2nd sem (credited)'
+2026-08-18 18:58:06,739 | __main__ | DEBUG | 'Curricular units 2nd sem (enrolled)'
+2026-08-18 18:58:06,739 | __main__ | DEBUG | 'Curricular units 2nd sem (evaluations)'
+2026-08-18 18:58:06,739 | __main__ | DEBUG | 'Curricular units 2nd sem (approved)'
+2026-08-18 18:58:06,739 | __main__ | DEBUG | 'Curricular units 2nd sem (grade)'
+2026-08-18 18:58:06,739 | __main__ | DEBUG | 'Curricular units 2nd sem (without evaluations)'
+2026-08-18 18:58:06,739 | __main__ | DEBUG | 'Unemployment rate'
+2026-08-18 18:58:06,740 | __main__ | DEBUG | 'Inflation rate'
+2026-08-18 18:58:06,740 | __main__ | DEBUG | 'GDP'
+2026-08-18 18:58:06,740 | __main__ | DEBUG | 'Target'
+2026-08-18 18:58:06,740 | src.data.data_validation | INFO | Data validation started.
+2026-08-18 18:58:06,740 | src.data.data_validation | INFO | Dataset shape: rows=4424, columns=37
+2026-08-18 18:58:06,740 | src.data.data_validation | ERROR | Missing columns: ['Daytime/evening attendance']
+2026-08-18 19:01:14,033 | __main__ | INFO | ============================================================
+2026-08-18 19:01:14,033 | __main__ | INFO | DATA VALIDATION PIPELINE STARTED
+2026-08-18 19:01:14,034 | __main__ | INFO | ============================================================
+2026-08-18 19:01:14,039 | utils.load_config | DEBUG | config file loaded.
+2026-08-18 19:01:14,040 | __main__ | INFO | Configuration loaded successfully.
+2026-08-18 19:01:14,040 | __main__ | INFO | Loading dataset from: data\raw\student_academic_data\data.csv
+2026-08-18 19:01:14,064 | utils.io | INFO | Loaded CSV: data\raw\student_academic_data\data.csv
+2026-08-18 19:01:14,079 | __main__ | INFO | Dataset loaded. Shape: (4424, 37)
+2026-08-18 19:01:14,079 | __main__ | INFO | 'Marital status'
+2026-08-18 19:01:14,079 | __main__ | INFO | 'Application mode'
+2026-08-18 19:01:14,079 | __main__ | INFO | 'Application order'
+2026-08-18 19:01:14,079 | __main__ | INFO | 'Course'
+2026-08-18 19:01:14,079 | __main__ | INFO | 'Daytime/evening attendance'
+2026-08-18 19:01:14,080 | __main__ | INFO | 'Previous qualification'
+2026-08-18 19:01:14,080 | __main__ | INFO | 'Previous qualification (grade)'
+2026-08-18 19:01:14,080 | __main__ | INFO | 'Nacionality'
+2026-08-18 19:01:14,080 | __main__ | INFO | "Mother's qualification"
+2026-08-18 19:01:14,080 | __main__ | INFO | "Father's qualification"
+2026-08-18 19:01:14,080 | __main__ | INFO | "Mother's occupation"
+2026-08-18 19:01:14,080 | __main__ | INFO | "Father's occupation"
+2026-08-18 19:01:14,081 | __main__ | INFO | 'Admission grade'
+2026-08-18 19:01:14,081 | __main__ | INFO | 'Displaced'
+2026-08-18 19:01:14,081 | __main__ | INFO | 'Educational special needs'
+2026-08-18 19:01:14,081 | __main__ | INFO | 'Debtor'
+2026-08-18 19:01:14,081 | __main__ | INFO | 'Tuition fees up to date'
+2026-08-18 19:01:14,081 | __main__ | INFO | 'Gender'
+2026-08-18 19:01:14,081 | __main__ | INFO | 'Scholarship holder'
+2026-08-18 19:01:14,082 | __main__ | INFO | 'Age at enrollment'
+2026-08-18 19:01:14,082 | __main__ | INFO | 'International'
+2026-08-18 19:01:14,082 | __main__ | INFO | 'Curricular units 1st sem (credited)'
+2026-08-18 19:01:14,082 | __main__ | INFO | 'Curricular units 1st sem (enrolled)'
+2026-08-18 19:01:14,082 | __main__ | INFO | 'Curricular units 1st sem (evaluations)'
+2026-08-18 19:01:14,082 | __main__ | INFO | 'Curricular units 1st sem (approved)'
+2026-08-18 19:01:14,082 | __main__ | INFO | 'Curricular units 1st sem (grade)'
+2026-08-18 19:01:14,082 | __main__ | INFO | 'Curricular units 1st sem (without evaluations)'
+2026-08-18 19:01:14,082 | __main__ | INFO | 'Curricular units 2nd sem (credited)'
+2026-08-18 19:01:14,083 | __main__ | INFO | 'Curricular units 2nd sem (enrolled)'
+2026-08-18 19:01:14,083 | __main__ | INFO | 'Curricular units 2nd sem (evaluations)'
+2026-08-18 19:01:14,083 | __main__ | INFO | 'Curricular units 2nd sem (approved)'
+2026-08-18 19:01:14,083 | __main__ | INFO | 'Curricular units 2nd sem (grade)'
+2026-08-18 19:01:14,083 | __main__ | INFO | 'Curricular units 2nd sem (without evaluations)'
+2026-08-18 19:01:14,083 | __main__ | INFO | 'Unemployment rate'
+2026-08-18 19:01:14,083 | __main__ | INFO | 'Inflation rate'
+2026-08-18 19:01:14,084 | __main__ | INFO | 'GDP'
+2026-08-18 19:01:14,084 | __main__ | INFO | 'Target'
+2026-08-18 19:01:14,084 | src.data.data_validation | INFO | Data validation started.
+2026-08-18 19:01:14,084 | src.data.data_validation | INFO | Dataset shape: rows=4424, columns=37
+2026-08-18 19:01:14,085 | src.data.data_validation | INFO | Column validation passed.
+2026-08-18 19:01:14,092 | src.data.data_validation | INFO | No missing values detected.
+2026-08-18 19:01:14,120 | src.data.data_validation | INFO | No duplicate rows detected.
+2026-08-18 19:01:14,121 | src.data.data_validation | DEBUG | Expected target classes: {'Graduate', 'Enrolled', 'Dropout'}
+2026-08-18 19:01:14,121 | src.data.data_validation | DEBUG | Actual target classes: {'Graduate', 'Enrolled', 'Dropout'}
+2026-08-18 19:01:14,121 | src.data.data_validation | INFO | Target validation passed.
+2026-08-18 19:01:14,121 | src.data.data_validation | INFO | Numerical feature validation passed.
+2026-08-18 19:01:14,121 | src.data.data_validation | INFO | Binary feature validation passed.
+2026-08-18 19:01:14,121 | src.data.data_validation | INFO | Data validation completed successfully.
+2026-08-18 19:01:14,126 | utils.io | INFO | Saved JSON: artifacts\data_validation.json
+2026-08-18 19:01:14,127 | __main__ | INFO | Validation report saved to: artifacts\data_validation.json
+2026-08-18 19:01:14,127 | __main__ | INFO | ============================================================
+2026-08-18 19:01:14,127 | __main__ | INFO | DATA VALIDATION PIPELINE COMPLETED
+2026-08-18 19:01:14,127 | __main__ | INFO | ============================================================
+2026-08-18 19:14:06,818 | __main__ | INFO | DATA PIPELINE STARTED
+2026-08-18 19:14:06,825 | utils.load_config | DEBUG | config file loaded.
+2026-08-18 19:14:06,853 | utils.io | INFO | Loaded CSV: data\raw\student_academic_data\data.csv
+2026-08-18 19:14:06,854 | src.data.data_validation | INFO | Data validation started.
+2026-08-18 19:14:06,855 | src.data.data_validation | INFO | Dataset shape: rows=4424, columns=37
+2026-08-18 19:14:06,855 | src.data.data_validation | INFO | Column validation passed.
+2026-08-18 19:14:06,856 | src.data.data_validation | INFO | No missing values detected.
+2026-08-18 19:14:06,863 | src.data.data_validation | INFO | No duplicate rows detected.
+2026-08-18 19:14:06,863 | src.data.data_validation | DEBUG | Expected target classes: {'Dropout', 'Enrolled', 'Graduate'}
+2026-08-18 19:14:06,864 | src.data.data_validation | DEBUG | Actual target classes: {'Dropout', 'Enrolled', 'Graduate'}
+2026-08-18 19:14:06,864 | src.data.data_validation | INFO | Target validation passed.
+2026-08-18 19:14:06,864 | src.data.data_validation | INFO | Numerical feature validation passed.
+2026-08-18 19:14:06,865 | src.data.data_validation | INFO | Binary feature validation passed.
+2026-08-18 19:14:06,866 | src.data.data_validation | INFO | Data validation completed successfully.
+2026-08-18 19:14:06,867 | utils.io | INFO | Saved JSON: artifacts\data_validation.json
+2026-08-18 19:14:06,867 | src.data.data_cleaning | INFO | Data cleaning started.
+2026-08-18 19:14:06,872 | src.data.data_cleaning | DEBUG | Column names normalized.
+2026-08-18 19:19:46,132 | __main__ | INFO | DATA PIPELINE STARTED
+2026-08-18 19:19:46,137 | utils.load_config | DEBUG | config file loaded.
+2026-08-18 19:19:46,170 | utils.io | INFO | Loaded CSV: data\raw\student_academic_data\data.csv
+2026-08-18 19:19:46,172 | src.data.data_validation | INFO | Data validation started.
+2026-08-18 19:19:46,172 | src.data.data_validation | INFO | Dataset shape: rows=4424, columns=37
+2026-08-18 19:19:46,172 | src.data.data_validation | INFO | Column validation passed.
+2026-08-18 19:19:46,174 | src.data.data_validation | INFO | No missing values detected.
+2026-08-18 19:19:46,181 | src.data.data_validation | INFO | No duplicate rows detected.
+2026-08-18 19:19:46,181 | src.data.data_validation | DEBUG | Expected target classes: {'Dropout', 'Enrolled', 'Graduate'}
+2026-08-18 19:19:46,182 | src.data.data_validation | DEBUG | Actual target classes: {'Dropout', 'Enrolled', 'Graduate'}
+2026-08-18 19:19:46,182 | src.data.data_validation | INFO | Target validation passed.
+2026-08-18 19:19:46,182 | src.data.data_validation | INFO | Numerical feature validation passed.
+2026-08-18 19:19:46,185 | src.data.data_validation | INFO | Binary feature validation passed.
+2026-08-18 19:19:46,185 | src.data.data_validation | INFO | Data validation completed successfully.
+2026-08-18 19:19:46,186 | utils.io | INFO | Saved JSON: artifacts\data_validation.json
+2026-08-18 19:19:46,186 | src.data.data_cleaning | INFO | Data cleaning started.
+2026-08-18 19:19:46,188 | src.data.data_cleaning | DEBUG | Column names normalized.
+2026-08-18 19:19:46,197 | src.data.data_cleaning | INFO | Data cleaning completed. Shape: (4424, 37)
+2026-08-18 19:19:46,198 | __main__ | INFO | Final cleaned shape: (4424, 37)
+2026-08-18 19:19:46,199 | __main__ | INFO | DATA PIPELINE COMPLETED
+2026-08-18 19:48:41,345 | __main__ | INFO | DATA PIPELINE STARTED
+2026-08-18 19:48:41,352 | utils.load_config | DEBUG | config file loaded.
+2026-08-18 19:48:41,384 | utils.io | INFO | Loaded CSV: data\raw\student_academic_data\data.csv
+2026-08-18 19:48:41,389 | src.data.data_validation | INFO | Data validation started.
+2026-08-18 19:48:41,389 | src.data.data_validation | INFO | Dataset shape: rows=4424, columns=37
+2026-08-18 19:48:41,390 | src.data.data_validation | INFO | Column validation passed.
+2026-08-18 19:48:41,392 | src.data.data_validation | INFO | No missing values detected.
+2026-08-18 19:48:41,405 | src.data.data_validation | INFO | No duplicate rows detected.
+2026-08-18 19:48:41,406 | src.data.data_validation | DEBUG | Expected target classes: {'Graduate', 'Enrolled', 'Dropout'}
+2026-08-18 19:48:41,406 | src.data.data_validation | DEBUG | Actual target classes: {'Enrolled', 'Graduate', 'Dropout'}
+2026-08-18 19:48:41,406 | src.data.data_validation | INFO | Target validation passed.
+2026-08-18 19:48:41,406 | src.data.data_validation | INFO | Numerical feature validation passed.
+2026-08-18 19:48:41,410 | src.data.data_validation | INFO | Binary feature validation passed.
+2026-08-18 19:48:41,410 | src.data.data_validation | INFO | Data validation completed successfully.
+2026-08-18 19:48:41,412 | utils.io | INFO | Saved JSON: artifacts\data_validation.json
+2026-08-18 19:48:41,412 | src.data.data_cleaning | INFO | Data cleaning started.
+2026-08-18 19:48:41,415 | src.data.data_cleaning | DEBUG | Column names normalized.
+2026-08-18 19:48:41,426 | src.data.data_cleaning | INFO | Data cleaning completed. Shape: (4424, 37)
+2026-08-18 19:48:41,427 | __main__ | INFO | Final cleaned shape: (4424, 37)
+2026-08-18 19:48:41,427 | __main__ | INFO | DATA PIPELINE COMPLETED
+2026-08-18 19:48:41,428 | __main__ | INFO | Starting train/test split.
+2026-08-18 19:48:41,428 | src.data.split | INFO | Data splitting started.
+2026-08-18 19:48:41,433 | src.data.split | INFO | Features shape: (4424, 36)
+2026-08-18 19:48:41,433 | src.data.split | INFO | Target shape: (4424,)
+2026-08-18 19:48:41,932 | src.data.split | INFO | X_train shape: (3539, 36)
+2026-08-18 19:48:41,932 | src.data.split | INFO | X_test shape: (885, 36)
+2026-08-18 19:48:41,932 | src.data.split | INFO | y_train shape: (3539,)
+2026-08-18 19:48:41,932 | src.data.split | INFO | y_test shape: (885,)
+2026-08-18 19:48:41,932 | src.data.split | INFO | Data splitting completed.
+2026-08-18 19:48:41,932 | __main__ | INFO | Train/Test split completed.
+2026-08-18 19:48:41,932 | __main__ | INFO | X_train shape: (3539, 36)
+2026-08-18 19:48:41,932 | __main__ | INFO | X_test shape: (885, 36)
+2026-08-18 19:48:41,932 | __main__ | INFO | y_train shape: (3539,)
+2026-08-18 19:48:41,932 | __main__ | INFO | y_test shape: (885,)
+2026-08-18 19:48:41,932 | __main__ | INFO | ============================================================
+2026-08-18 19:48:41,932 | __main__ | INFO | DATA PIPELINE COMPLETED SUCCESSFULLY
+2026-08-18 19:48:41,932 | __main__ | INFO | ============================================================
