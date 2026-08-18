@@ -51,15 +51,15 @@ class DataValidation:
         # -------------------------
 
         self.numerical_features = set(
-            config.features.numerical
+            config.features.raw.numerical
         )
 
         self.categorical_features = set(
-            config.features.categorical
+            config.features.raw.categorical
         )
 
         self.binary_features = set(
-            config.features.binary
+            config.features.raw.binary
         )
 
         self.expected_features = (

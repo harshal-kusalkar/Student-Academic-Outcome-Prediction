@@ -17,7 +17,7 @@ def run():
     config = load_config()
 
     data_path = (
-        config.DATA_PATHS.data_path
+        config.data_paths.data_path
     )
 
     df = load_csv(path=data_path)
@@ -37,7 +37,7 @@ def run():
 
     save_json(
         data=validation_result,
-        path=config.ARTIFACTS.data_validation_path,
+        path=config.artifacts.data_validation_path,
     )
 
     # -----------------------------
@@ -102,19 +102,19 @@ def run():
 
     save_csv(
         data=X_train,
-        path=config.DATA_PATHS.X_train_path
+        path=config.data_paths.X_train_path
         )
     save_csv(
         data=X_test,
-        path=config.DATA_PATHS.X_test_path
+        path=config.data_paths.X_test_path
         )
     save_numpy(
     data=y_train.to_numpy(),
-    path=config.DATA_PATHS.y_train_path,
+    path=config.data_paths.y_train_path,
       )
     save_numpy(
     data=y_test.to_numpy(),
-    path=config.DATA_PATHS.y_test_path,
+    path=config.data_paths.y_test_path,
        )
 
     # ==================================================
@@ -126,9 +126,6 @@ def run():
         "DATA PIPELINE COMPLETED SUCCESSFULLY"
     )
     logger.info("=" * 60)
-
-
-
 
 if __name__ == "__main__":
     run()
