@@ -1,4 +1,4 @@
-from src.model.eval import evaluate
+from model.model_evaluation import evaluate
 
 from utils.io import (
     load_model,
