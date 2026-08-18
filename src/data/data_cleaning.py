@@ -1,33 +1,92 @@
+import pandas as pd
+
 from utils.logger import get_logger
 
-from typing import Tuple
-import pandas as pd 
-import numpy as np 
 
 logger = get_logger(__name__)
 
-def clean_data(data: pd.DataFrame, config) -> pd.DataFrame:
-    logger.info("Data cleaning started")
 
-    data = data.copy()
-    
-    feature_to_drop = config.preprocessing.drop_columns
-    logger.debug(f"feature to drop has loaded: {feature_to_drop}")
+def clean_data(
+    data: pd.DataFrame,
+    config,
+) -> pd.DataFrame:
+    """
+    Clean raw student dataset.
 
-    # clean columns names
-    data.columns = data.columns.str.strip().str.replace(r"\s+", " ", regex=True)
+    Responsibilities:
+        - Normalize column names
+        - Remove configured columns
+        - Remove duplicate rows
+        - Return cleaned dataframe
+    """
 
-    data = data.drop(columns=feature_to_drop, errors="ignore")
+    logger.info("Data cleaning started.")
 
-    logger.info("columns droped from X_train and X_test")
-    logger.debug(f"data shape: {data.shape}")
+    df = data.copy()
 
-    logger.info("Data cleaning complete")
+    # -----------------------------------------
+    # 1. Normalize column names
+    # -----------------------------------------
 
-    return data
+    df.columns = (
+        df.columns
+        .str.strip()
+    )
 
+    logger.debug(
+        "Column names normalized."
+    )
 
+    # -----------------------------------------
+    # 2. Remove configured columns
+    # -----------------------------------------
 
+    drop_columns = config.preprocessing.drop_columns
 
+    existing_columns = [
+        column
+        for column in drop_columns
+        if column in df.columns
+    ]
 
+    if existing_columns:
+
+        logger.info(
+            "Dropping columns: %s",
+            existing_columns,
+        )
+
+        df = df.drop(
+            columns=existing_columns
+        )
+
+    # -----------------------------------------
+    # 3. Remove duplicate rows
+    # -----------------------------------------
+
+    duplicate_count = int(
+        df.duplicated().sum()
+    )
+
+    if duplicate_count > 0:
+
+        logger.info(
+            "Removing %d duplicate rows.",
+            duplicate_count,
+        )
+
+        df = df.drop_duplicates(
+            ignore_index=True
+        )
+
+    # -----------------------------------------
+    # 4. Final result
+    # -----------------------------------------
+
+    logger.info(
+        "Data cleaning completed. Shape: %s",
+        df.shape,
+    )
+
+    return df
 
