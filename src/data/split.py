@@ -24,10 +24,10 @@ def split_data(
 
     logger.info("Data splitting started.")
 
-    target_col = config.TARGET.name
+    target_col = config.target.name
 
-    test_size = config.DATA_SPLIT.test_size
-    random_state = config.DATA_SPLIT.random_state
+    test_size = config.data_split.test_size
+    random_state = config.data_split.random_state
 
     # -----------------------------------------
     # Separate features and target

@@ -1,10 +1,18 @@
 from typing import Literal
+from pathlib import Path
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class DataPathsConfig(BaseModel):
-    data_path: str
+    data_path: Path
+    X_train_path: Path 
+    X_test_path: Path 
+    y_train_path: Path 
+    y_test_path: Path
+
+class ArtifactsConfig(BaseModel):
+    data_validation_path: Path
 
 
 class TargetConfig(BaseModel):
@@ -60,12 +68,24 @@ class PreprocessingConfig(BaseModel):
     numerical: NumericalPreprocessingConfig
     categorical: CategoricalPreprocessingConfig
     binary: BinaryPreprocessingConfig
+    drop_columns: list[str] = Field(
+        default_factory=list
+    )
 
 
-class FeaturesConfig(BaseModel):
+class RawFeaturesConfig(BaseModel):
     numerical: list[str]
     categorical: list[str]
     binary: list[str]
+
+
+class EngineeredFeaturesConfig(BaseModel):
+    numerical: list[str]
+
+
+class FeaturesConfig(BaseModel):
+    raw: RawFeaturesConfig
+    engineered: EngineeredFeaturesConfig
 
 
 class DataSplitConfig(BaseModel):
@@ -75,8 +95,9 @@ class DataSplitConfig(BaseModel):
 
 
 class Config(BaseModel):
-    DATA_PATHS: DataPathsConfig
-    TARGET: TargetConfig
-    FEATURES: FeaturesConfig
-    PREPROCESSING: PreprocessingConfig
-    DATA_SPLIT: DataSplitConfig
+    data_paths: DataPathsConfig
+    artifacts: ArtifactsConfig
+    target: TargetConfig
+    features: FeaturesConfig
+    preprocessing: PreprocessingConfig
+    data_split: DataSplitConfig

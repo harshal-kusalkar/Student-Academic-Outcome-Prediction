@@ -1,61 +1,82 @@
-DATA_PATHS:
+data_paths:
   data_path: data/raw/student_academic_data/data.csv
+  X_train_path: data/processed/X_train.csv
+  X_test_path: data/processed/X_test.csv
+  y_train_path: data/processed/y_train.npy
+  y_test_path: data/processed/y_test.npy
 
-TARGET:
+artifacts:
+  data_validation_path: artifacts/data_validation.json
+
+target:
   name: Target
   classes:
     - Dropout
     - Enrolled
     - Graduate
 
-FEATURES:
+features:
 
-  categorical:
-    - Marital status
-    - Application mode
-    - Course
-    - Previous qualification
-    - Nacionality
-    - Mother's qualification
-    - Father's qualification
-    - Mother's occupation
-    - Father's occupation
+  raw:
+    numerical:
+      - Application order
+      - Previous qualification (grade)
+      - Admission grade
+      - Age at enrollment
+      - Curricular units 1st sem (credited)
+      - Curricular units 1st sem (enrolled)
+      - Curricular units 1st sem (evaluations)
+      - Curricular units 1st sem (approved)
+      - Curricular units 1st sem (grade)
+      - Curricular units 1st sem (without evaluations)
+      - Curricular units 2nd sem (credited)
+      - Curricular units 2nd sem (enrolled)
+      - Curricular units 2nd sem (evaluations)
+      - Curricular units 2nd sem (approved)
+      - Curricular units 2nd sem (grade)
+      - Curricular units 2nd sem (without evaluations)
+      - Unemployment rate
+      - Inflation rate
+      - GDP
 
-  binary:
-    - Daytime/evening attendance
-    - Displaced
-    - Educational special needs
-    - Debtor
-    - Tuition fees up to date
-    - Gender
-    - Scholarship holder
-    - International
+    categorical:
+      - Marital status
+      - Application mode
+      - Course
+      - Previous qualification
+      - Nacionality
+      - Mother's qualification
+      - Father's qualification
+      - Mother's occupation
+      - Father's occupation
 
-  numerical:
-    - Application order
-    - Previous qualification (grade)
-    - Admission grade
-    - Age at enrollment
+    binary:
+      - Daytime/evening attendance
+      - Displaced
+      - Educational special needs
+      - Debtor
+      - Tuition fees up to date
+      - Gender
+      - Scholarship holder
+      - International
 
-    - Curricular units 1st sem (credited)
-    - Curricular units 1st sem (enrolled)
-    - Curricular units 1st sem (evaluations)
-    - Curricular units 1st sem (approved)
-    - Curricular units 1st sem (grade)
-    - Curricular units 1st sem (without evaluations)
+  engineered:
+    numerical:
+      - sem1_approval_rate
+      - sem1_evaluation_rate
+      - sem1_without_eval_rate
+      - sem2_approval_rate
+      - sem2_evaluation_rate
+      - sem2_without_eval_rate
+      - total_enrolled
+      - total_approved
+      - total_evaluations
+      - overall_approval_rate
+      - grade_change
+      - approval_change
+      - enrollment_change
 
-    - Curricular units 2nd sem (credited)
-    - Curricular units 2nd sem (enrolled)
-    - Curricular units 2nd sem (evaluations)
-    - Curricular units 2nd sem (approved)
-    - Curricular units 2nd sem (grade)
-    - Curricular units 2nd sem (without evaluations)
-
-    - Unemployment rate
-    - Inflation rate
-    - GDP
-
-PREPROCESSING:
+preprocessing:
   numerical:
     imputer:
       strategy: median
@@ -72,8 +93,10 @@ PREPROCESSING:
   binary:
     imputer:
       strategy: most_frequent
+  
+  drop_columns: []
 
-DATA_SPLIT:
+data_split:
   test_size: 0.2
   random_state: 42
   stratify: true

@@ -34,16 +34,16 @@ class DataValidation:
         # -------------------------
 
         self.data_path = Path(
-            config.DATA_PATHS.data_path
+            config.data_paths.data_path
         )
 
         # -------------------------
         # Target
         # -------------------------
 
-        self.target_col = config.TARGET.name
+        self.target_col = config.target.name
         self.target_classes = set(
-            config.TARGET.classes
+            config.target.classes
         )
 
         # -------------------------
@@ -51,15 +51,15 @@ class DataValidation:
         # -------------------------
 
         self.numerical_features = set(
-            config.FEATURES.numerical
+            config.features.numerical
         )
 
         self.categorical_features = set(
-            config.FEATURES.categorical
+            config.features.categorical
         )
 
         self.binary_features = set(
-            config.FEATURES.binary
+            config.features.binary
         )
 
         self.expected_features = (

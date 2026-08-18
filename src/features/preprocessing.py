@@ -79,13 +79,13 @@ def create_preprocessor(config):
             (
                 "imputer",
                 create_imputer(
-                    config.PREPROCESSING.numerical.imputer
+                    config.preprocessing.numerical.imputer
                 ),
             ),
             (
                 "scaler",
                 create_scaler(
-                    config.PREPROCESSING.numerical.scaler
+                    config.preprocessing.numerical.scaler
                 ),
             ),
         ]
@@ -100,13 +100,13 @@ def create_preprocessor(config):
             (
                 "imputer",
                 create_imputer(
-                    config.PREPROCESSING.categorical.imputer
+                    config.preprocessing.categorical.imputer
                 ),
             ),
             (
                 "encoder",
                 create_encoder(
-                    config.PREPROCESSING.categorical.encoder
+                    config.preprocessing.categorical.encoder
                 ),
             ),
         ]
@@ -121,7 +121,7 @@ def create_preprocessor(config):
             (
                 "imputer",
                 create_imputer(
-                    config.PREPROCESSING.binary.imputer
+                    config.preprocessing.binary.imputer
                 ),
             ),
         ]
@@ -136,17 +136,17 @@ def create_preprocessor(config):
             (
                 "numerical",
                 numerical_pipeline,
-                config.FEATURES.numerical,
+                config.features.numerical,
             ),
             (
                 "categorical",
                 categorical_pipeline,
-                config.FEATURES.categorical,
+                config.features.categorical,
             ),
             (
                 "binary",
                 binary_pipeline,
-                config.FEATURES.binary,
+                config.features.binary,
             ),
         ],
         remainder="drop",
