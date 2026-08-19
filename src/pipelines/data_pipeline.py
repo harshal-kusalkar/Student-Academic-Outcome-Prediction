@@ -1,8 +1,16 @@
 from src.data import data_cleaning
 from src.data.data_validation import DataValidation
 from src.data import split
+from src.data.label_encoder import encode_target
 
-from utils.io import load_csv, save_json, save_csv, save_numpy
+from utils.io import (
+        load_csv,
+        save_json,
+        save_csv,
+        save_numpy,
+        save_model
+        )
+
 from utils.logger import get_logger
 from utils.load_config import load_config
 
@@ -76,6 +84,15 @@ def run():
         "Train/Test split completed."
     )
 
+    y_train, y_test, encoder = encode_target(
+        y_train=y_train,
+        y_test=y_test,
+    )
+
+    logger.info(
+        "y_train/y_test encoded."
+    )
+
     logger.info(
         "X_train shape: %s",
         X_train.shape,
@@ -88,12 +105,12 @@ def run():
 
     logger.info(
         "y_train shape: %s",
-        y_train.shape,
+        len(y_train),
     )
 
     logger.info(
         "y_test shape: %s",
-        y_test.shape,
+        len(y_test),
     )
 
     # ==================================================
@@ -109,13 +126,18 @@ def run():
         path=config.data_paths.X_test_path
         )
     save_numpy(
-    data=y_train.to_numpy(),
+    data=y_train,
     path=config.data_paths.y_train_path,
       )
     save_numpy(
-    data=y_test.to_numpy(),
+    data=y_test,
     path=config.data_paths.y_test_path,
        )
+
+    save_model(
+        model=encoder,
+        path=config.artifacts.encoder_path
+    )
 
     # ==================================================
     # Pipeline completed

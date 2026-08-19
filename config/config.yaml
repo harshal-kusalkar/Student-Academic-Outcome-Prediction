@@ -7,6 +7,7 @@ data_paths:
 
 artifacts:
   data_validation_path: artifacts/data_validation.json
+  encoder_path: artifacts/encoder.joblib
 
 target:
   name: Target
@@ -100,3 +101,12 @@ data_split:
   test_size: 0.2
   random_state: 42
   stratify: true
+
+model_selection:
+  cv:
+    n_splits: 5
+    random_state: 42
+
+mlflow:
+  tracking_uri: sqlite:///mlflow.db
+  experiment_name: student_dropout_model_selection

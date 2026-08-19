@@ -13,6 +13,7 @@ class DataPathsConfig(BaseModel):
 
 class ArtifactsConfig(BaseModel):
     data_validation_path: Path
+    encoder_path: Path
 
 
 class TargetConfig(BaseModel):
@@ -93,6 +94,20 @@ class DataSplitConfig(BaseModel):
     random_state: int
     stratify: bool
 
+class CVConfig(BaseModel):
+    n_splits: int = Field(
+        default=5,
+        ge=2,
+        )
+    random_state: int = 42
+
+class ModelSelectionConfig(BaseModel):
+    cv: CVConfig
+
+class MLflowConfig(BaseModel):
+    tracking_uri: str
+    experiment_name: str
+
 
 class Config(BaseModel):
     data_paths: DataPathsConfig
@@ -101,3 +116,6 @@ class Config(BaseModel):
     features: FeaturesConfig
     preprocessing: PreprocessingConfig
     data_split: DataSplitConfig
+
+    model_selection: ModelSelectionConfig
+    mlflow: MLflowConfig
