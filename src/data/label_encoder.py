@@ -1,30 +1,38 @@
 from sklearn.preprocessing import LabelEncoder
+
 from utils.logger import get_logger
 
-import pandas as pd
 
 logger = get_logger(__name__)
 
-def encode_label(
-    y_train: pd.Series,
-    y_test: pd.Series,
+
+def encode_target(
+    y_train,
+    y_test,
 ):
-    logger.info("Encoding target labels")
+    """
+    Encode target labels into integer classes.
+
+    The encoder is fitted ONLY on y_train.
+    """
 
     encoder = LabelEncoder()
 
-    y_train_trf = encoder.fit_transform(y_train)
-    y_test_trf = encoder.transform(y_test)
+    y_train_encoded = encoder.fit_transform(
+        y_train
+    )
 
-    logger.debug(
-        "Class mapping: %s",
-        dict(zip(encoder.classes_, encoder.transform(encoder.classes_)))
+    y_test_encoded = encoder.transform(
+        y_test
     )
 
     logger.info(
-        "Encoded %d classes",
-        len(encoder.classes_)
+        "Target classes: %s",
+        list(encoder.classes_),
     )
 
-    return y_train_trf, y_test_trf, encoder
-
+    return (
+        y_train_encoded,
+        y_test_encoded,
+        encoder,
+    )
