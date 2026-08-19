@@ -10,6 +10,10 @@ from src.model.model_selection import (
     select_best_model,
 )
 
+from src.tracking.mlflow_tracker import (
+    setup_mlflow,
+)
+
 from utils.io import load_csv, load_numpy
 from utils.logger import get_logger
 from utils.load_config import load_config
@@ -26,6 +30,8 @@ def run():
     )
 
     config = load_config()
+
+    setup_mlflow(config=config)
 
     # -----------------------------------------
     # Load training data
@@ -52,7 +58,7 @@ def run():
     # Model selection
     # -----------------------------------------
 
-    best_model_name, results = (
+    best_model_name ,best_pipeline, results = (
         select_best_model(
             pipelines=pipelines,
             X_train=X_train,
@@ -70,10 +76,11 @@ def run():
         "======== TRAINING PIPELINE COMPLETED ========"
     )
 
-    return best_model_name, results
+    return best_model_name,best_pipeline, results
 
 if __name__ == "__main__":
-    model, result = run()
+    model, pipeline, result = run()
     print(type(model))
+    print(type(pipeline))
     print(result)
 
