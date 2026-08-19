@@ -28,4 +28,24 @@ def get_candidate_models():
                 random_state=42,
             )
         ),
+
+        "xgboost": XGBClassifier(
+            n_estimators=300,
+            random_state=42,
+            eval_metric="mlogloss",
+            n_jobs=-1,
+        ),
+
+        "lightgbm": LGBMClassifier(
+            n_estimators=300,
+            random_state=42,
+            verbosity=-1,
+            n_jobs=-1,
+        ),
+
+        "catboost": CatBoostClassifier(
+            iterations=300,
+            verbose=False,
+            random_seed=42,
+        ),
     }

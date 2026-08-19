@@ -1,12 +1,7 @@
 import pandas as pd
 
-from src.model.model_factory import (
-    get_candidate_models,
-)
-
-from src.model.model_evaluation import (
-    evaluate_model,
-)
+from src.model.model_evaluation import evaluate_model
+from src.tracking.mlflow_tracker import log_model_run
 
 from utils.logger import get_logger
 
@@ -37,6 +32,29 @@ def select_best_model(
             cv_config=cv_config,
         )
 
+        # -----------------------------
+        # MLflow
+        # -----------------------------
+
+        model = pipeline.named_steps[
+            "model"
+        ]
+
+        mlflow_metrics = {
+            key: float(value)
+            for key, value in metrics.items()
+        }
+
+        log_model_run(
+            model_name=model_name,
+            model=model,
+            metrics=mlflow_metrics,
+        )
+
+        # -----------------------------
+        # Results
+        # -----------------------------
+
         results.append(
             {
                 "model": model_name,
@@ -57,12 +75,17 @@ def select_best_model(
         results_df.iloc[0]["model"]
     )
 
+    best_pipeline = pipelines[
+        best_model_name
+    ]
+
     logger.info(
-        "Best model selected: %s",
+        "Best model: %s",
         best_model_name,
     )
 
     return (
         best_model_name,
+        best_pipeline,
         results_df,
     )

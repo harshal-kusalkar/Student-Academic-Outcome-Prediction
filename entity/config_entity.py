@@ -13,8 +13,9 @@ class DataPathsConfig(BaseModel):
 
 class ArtifactsConfig(BaseModel):
     data_validation_path: Path
+    model_comparison_path: Path 
     encoder_path: Path
-
+    model_path: Path
 
 class TargetConfig(BaseModel):
     name: str
@@ -108,6 +109,12 @@ class MLflowConfig(BaseModel):
     tracking_uri: str
     experiment_name: str
 
+class TuningConfig(BaseModel):
+    n_trials: int = Field(
+        default=50,
+        ge=1,
+    )
+
 
 class Config(BaseModel):
     data_paths: DataPathsConfig
@@ -116,6 +123,6 @@ class Config(BaseModel):
     features: FeaturesConfig
     preprocessing: PreprocessingConfig
     data_split: DataSplitConfig
-
     model_selection: ModelSelectionConfig
     mlflow: MLflowConfig
+    tuning: TuningConfig

@@ -12,7 +12,7 @@ def setup_mlflow(config):
     """
 
     mlflow.set_tracking_uri(
-        config.mlflow.tracking_uri
+        "sqlite:///mlflow.db"
     )
 
     mlflow.set_experiment(
@@ -82,4 +82,29 @@ def log_model_run(
         logger.info(
             "MLflow run logged: %s",
             model_name,
+        )
+
+def log_optuna_best_trial(study):
+
+    with mlflow.start_run(
+        run_name="random_forest_optuna_best"
+    ):
+
+        mlflow.set_tag(
+            "stage",
+            "hyperparameter_tuning",
+        )
+
+        mlflow.set_tag(
+            "model_name",
+            "random_forest",
+        )
+
+        mlflow.log_params(
+            study.best_params
+        )
+
+        mlflow.log_metric(
+            "best_cv_macro_f1",
+            float(study.best_value),
         )

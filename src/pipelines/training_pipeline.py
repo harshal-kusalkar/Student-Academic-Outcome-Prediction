@@ -12,9 +12,23 @@ from src.model.model_selection import (
 
 from src.tracking.mlflow_tracker import (
     setup_mlflow,
+    log_optuna_best_trial,
 )
 
-from utils.io import load_csv, load_numpy
+from src.tuning.optuna_tuner import (
+    tune_random_forest,
+)
+
+from src.model.model_training import (
+    train_final_model,
+)
+
+from utils.io import (
+    save_csv,
+    save_model,
+    load_csv,
+    load_numpy
+)
 from utils.logger import get_logger
 from utils.load_config import load_config
 
@@ -72,15 +86,57 @@ def run():
         best_model_name,
     )
 
+    # -----------------------------------------
+    # Hyperparameter Tuning
+    # -----------------------------------------
+
+    if best_model_name == "random_forest":
+
+        study = tune_random_forest(
+            pipeline=best_pipeline,
+            X_train=X_train,
+            y_train=y_train,
+            config=config,
+        )
+
+        log_optuna_best_trial(study)
+
+        logger.info(
+            "Optuna best score: %.4f",
+            study.best_value,
+        )
+
+        logger.info(
+            "Optuna best parameters: %s",
+            study.best_params,
+        )
+
+    # -----------------------------------------
+    # Final Model Training
+    # -----------------------------------------
+
+    final_pipeline = train_final_model(
+        pipeline=best_pipeline,
+        X_train=X_train,
+        y_train=y_train,
+        best_params=study.best_params,
+    )
+
+    save_model(
+        model=final_pipeline,
+        path=config.artifacts.model_path,
+    )
+
+    save_csv(
+        data=results,
+        path=config.artifacts.model_comparison_path
+    )
+
     logger.info(
         "======== TRAINING PIPELINE COMPLETED ========"
     )
 
-    return best_model_name,best_pipeline, results
-
 if __name__ == "__main__":
-    model, pipeline, result = run()
-    print(type(model))
-    print(type(pipeline))
-    print(result)
+    run()
+
 

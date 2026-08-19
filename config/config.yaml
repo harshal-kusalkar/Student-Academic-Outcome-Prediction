@@ -6,8 +6,10 @@ data_paths:
   y_test_path: data/processed/y_test.npy
 
 artifacts:
-  data_validation_path: artifacts/data_validation.json
+  data_validation_path: artifacts/validation/validation_report.json
+  model_comparison_path: artifacts/experiments/model_comparison.csv
   encoder_path: artifacts/encoder.joblib
+  model_path: artifacts/models/student_model.joblib
 
 target:
   name: Target
@@ -110,3 +112,6 @@ model_selection:
 mlflow:
   tracking_uri: sqlite:///mlflow.db
   experiment_name: student_dropout_model_selection
+
+tuning:
+  n_trials: 50
