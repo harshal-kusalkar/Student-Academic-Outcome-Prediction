@@ -71,7 +71,7 @@ def save_numpy(data: np.ndarray, path: Path) -> None:
 def load_numpy(path: Path) -> np.ndarray:
     check_file_exists(path)
 
-    array = np.load(path, allow_pickle=False)
+    array = np.load(path, allow_pickle=True)
 
     logger.info(f"Loaded NumPy array: {path}")
 

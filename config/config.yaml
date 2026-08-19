@@ -10,6 +10,7 @@ artifacts:
   model_comparison_path: artifacts/experiments/model_comparison.csv
   encoder_path: artifacts/encoder.joblib
   model_path: artifacts/models/student_model.joblib
+  evaluation_path: artifacts/evaluation/evaluation_report.json
 
 target:
   name: Target
@@ -111,7 +112,7 @@ model_selection:
 
 mlflow:
   tracking_uri: sqlite:///mlflow.db
-  experiment_name: student_dropout_model_selection
+  experiment_name: student_dropout_prediction
 
 tuning:
   n_trials: 50

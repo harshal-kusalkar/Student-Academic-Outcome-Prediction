@@ -16,6 +16,7 @@ class ArtifactsConfig(BaseModel):
     model_comparison_path: Path 
     encoder_path: Path
     model_path: Path
+    evaluation_path: Path
 
 class TargetConfig(BaseModel):
     name: str
