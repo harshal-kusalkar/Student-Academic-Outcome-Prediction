@@ -22,15 +22,16 @@ app = FastAPI(
     version="1.0.0",
 )
 
-
 config = load_config()
 
 predictor = Predictor(
     tracking_uri=config.mlflow.tracking_uri,
-    model_name=config.mlflow.registered_model_name,
+    model_name=(
+        config.mlflow.registered_model_name
+    ),
     alias=config.mlflow.model_alias,
+    encoder_path=config.artifacts.encoder_path
 )
-
 
 @app.get("/health")
 def health_check():
