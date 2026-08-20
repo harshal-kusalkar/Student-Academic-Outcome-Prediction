@@ -1,0 +1,67 @@
+artifact_path: file:E:/project_archive/student-dropout-enrolled-graduate-rate-prediction/mlruns/2/models/m-b67184262ed94da2b8b1a663482d06af/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.skops
+    predict_fn: predict
+    python_version: 3.12.10
+  sklearn:
+    code: null
+    pickled_model: model.skops
+    serialization_format: skops
+    sklearn_version: 1.9.0
+    skops_trusted_types:
+    - src.features.feature_engineering.StudentFeatureEngineer
+    - numpy.dtype
+is_signature_from_type_hint: false
+mlflow_version: 3.15.1
+model_id: m-b67184262ed94da2b8b1a663482d06af
+model_size_bytes: 9244487
+model_uuid: m-b67184262ed94da2b8b1a663482d06af
+prompts: null
+run_id: 4e7aab918f12417ea7e1a862cb79df78
+saved_input_example_info:
+  artifact_path: input_example.json
+  pandas_orient: split
+  serving_input_path: serving_input_example.json
+  type: dataframe
+signature:
+  inputs: '[{"type": "long", "name": "Marital status", "required": true}, {"type":
+    "long", "name": "Application mode", "required": true}, {"type": "long", "name":
+    "Application order", "required": true}, {"type": "long", "name": "Course", "required":
+    true}, {"type": "long", "name": "Daytime/evening attendance", "required": true},
+    {"type": "long", "name": "Previous qualification", "required": true}, {"type":
+    "double", "name": "Previous qualification (grade)", "required": true}, {"type":
+    "long", "name": "Nacionality", "required": true}, {"type": "long", "name": "Mother''s
+    qualification", "required": true}, {"type": "long", "name": "Father''s qualification",
+    "required": true}, {"type": "long", "name": "Mother''s occupation", "required":
+    true}, {"type": "long", "name": "Father''s occupation", "required": true}, {"type":
+    "double", "name": "Admission grade", "required": true}, {"type": "long", "name":
+    "Displaced", "required": true}, {"type": "long", "name": "Educational special
+    needs", "required": true}, {"type": "long", "name": "Debtor", "required": true},
+    {"type": "long", "name": "Tuition fees up to date", "required": true}, {"type":
+    "long", "name": "Gender", "required": true}, {"type": "long", "name": "Scholarship
+    holder", "required": true}, {"type": "long", "name": "Age at enrollment", "required":
+    true}, {"type": "long", "name": "International", "required": true}, {"type": "long",
+    "name": "Curricular units 1st sem (credited)", "required": true}, {"type": "long",
+    "name": "Curricular units 1st sem (enrolled)", "required": true}, {"type": "long",
+    "name": "Curricular units 1st sem (evaluations)", "required": true}, {"type":
+    "long", "name": "Curricular units 1st sem (approved)", "required": true}, {"type":
+    "double", "name": "Curricular units 1st sem (grade)", "required": true}, {"type":
+    "long", "name": "Curricular units 1st sem (without evaluations)", "required":
+    true}, {"type": "long", "name": "Curricular units 2nd sem (credited)", "required":
+    true}, {"type": "long", "name": "Curricular units 2nd sem (enrolled)", "required":
+    true}, {"type": "long", "name": "Curricular units 2nd sem (evaluations)", "required":
+    true}, {"type": "long", "name": "Curricular units 2nd sem (approved)", "required":
+    true}, {"type": "double", "name": "Curricular units 2nd sem (grade)", "required":
+    true}, {"type": "long", "name": "Curricular units 2nd sem (without evaluations)",
+    "required": true}, {"type": "double", "name": "Unemployment rate", "required":
+    true}, {"type": "double", "name": "Inflation rate", "required": true}, {"type":
+    "double", "name": "GDP", "required": true}]'
+  outputs: '[{"type": "long", "required": true}]'
+  params: null
+type_hint_from_example: false
+utc_time_created: '2026-08-20 12:59:04.084089'

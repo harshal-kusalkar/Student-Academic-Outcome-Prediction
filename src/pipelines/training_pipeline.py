@@ -13,6 +13,7 @@ from src.model.model_selection import (
 from src.tracking.mlflow_tracker import (
     setup_mlflow,
     log_optuna_best_trial,
+    register_final_model,
 )
 
 from src.tuning.optuna_tuner import (
@@ -122,6 +123,10 @@ def run():
         best_params=study.best_params,
     )
 
+    # -----------------------------------------
+    # Save model and result
+    # -----------------------------------------
+
     save_model(
         model=final_pipeline,
         path=config.artifacts.model_path,
@@ -132,11 +137,21 @@ def run():
         path=config.artifacts.model_comparison_path
     )
 
+    # -----------------------------------------
+    # Resister Model To Mlflow
+    # -----------------------------------------
+
+    register_final_model(
+        model=final_pipeline,
+        model_name=config.mlflow.registered_model_name,
+        X_train=X_train,
+    )
+
     logger.info(
         "======== TRAINING PIPELINE COMPLETED ========"
     )
 
-# if __name__ == "__main__":
-#     run()
+if __name__ == "__main__":
+    run()
 
 

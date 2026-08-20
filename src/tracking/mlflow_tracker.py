@@ -1,4 +1,5 @@
 import mlflow
+import mlflow.sklearn
 
 from utils.logger import get_logger
 
@@ -108,3 +109,52 @@ def log_optuna_best_trial(study):
             "best_cv_macro_f1",
             float(study.best_value),
         )
+
+
+def register_final_model(
+    model,
+    model_name: str,
+    X_train,
+):
+    """
+    Log and register the final sklearn pipeline
+    with MLflow.
+    """
+
+    trusted_types = [
+        "src.features.feature_engineering.StudentFeatureEngineer",
+        "numpy.dtype",
+    ]
+
+    with mlflow.start_run(
+        run_name="final_model"
+    ):
+
+        mlflow.set_tag(
+            "stage",
+            "final_training",
+        )
+
+        mlflow.set_tag(
+            "model_name",
+            model_name,
+        )
+
+        model_info = mlflow.sklearn.log_model(
+            sk_model=model,
+            name="model",
+            input_example=X_train.head(5),
+            registered_model_name=model_name,
+            skops_trusted_types=trusted_types,
+        )
+
+        logger.info(
+            "Final model registered."
+        )
+
+        logger.info(
+            "Model URI: %s",
+            model_info.model_uri,
+        )
+
+        return model_info
