@@ -53,3 +53,4 @@ artifacts/logs/
 *.log
 
 mlruns/
+mlflow.db/
