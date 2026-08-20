@@ -3,6 +3,7 @@ import pandas as pd
 from src.inference.predictor import Predictor
 
 from utils.load_config import load_config
+from utils.io import load_model
 from utils.logger import get_logger
 
 
@@ -25,6 +26,7 @@ def run(
             config.mlflow.registered_model_name
         ),
         alias=config.mlflow.model_alias,
+        encoder_path=config.artifacts.encoder_path
     )
 
     predictions = predictor.predict(

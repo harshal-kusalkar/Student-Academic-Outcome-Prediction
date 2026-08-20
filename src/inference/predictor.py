@@ -1,6 +1,9 @@
+from pathlib import Path
+
 import mlflow
 import pandas as pd
 
+from utils.io import load_model
 from utils.logger import get_logger
 
 
@@ -8,17 +11,18 @@ logger = get_logger(__name__)
 
 
 class Predictor:
-    """
-    Load the champion model from MLflow
-    and perform inference.
-    """
 
     def __init__(
         self,
         tracking_uri: str,
         model_name: str,
-        alias: str = "champion",
-    ) -> None:
+        alias: str,
+        encoder_path: Path,
+    ):
+
+        mlflow.set_tracking_uri(
+            tracking_uri
+        )
 
         self.model_uri = (
             f"models:/{model_name}@{alias}"
@@ -29,16 +33,16 @@ class Predictor:
             self.model_uri,
         )
 
-        mlflow.set_tracking_uri(
-            tracking_uri
-        )
-
         self.model = mlflow.sklearn.load_model(
             self.model_uri
         )
 
+        self.encoder = load_model(
+            path=encoder_path
+        )
+
         logger.info(
-            "Model loaded successfully."
+            "Model and label encoder loaded successfully."
         )
 
     def predict(
@@ -46,17 +50,12 @@ class Predictor:
         data: pd.DataFrame,
     ):
 
-        logger.info(
-            "Running prediction. Input shape: %s",
-            data.shape,
-        )
-
         prediction = self.model.predict(
             data
         )
 
-        logger.info(
-            "Prediction completed."
+        prediction = self.encoder.inverse_transform(
+            prediction
         )
 
         return prediction
