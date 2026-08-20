@@ -114,6 +114,7 @@ mlflow:
   tracking_uri: sqlite:///mlflow.db
   experiment_name: student_dropout_prediction
   registered_model_name: student_dropout_model
+  model_alias: champion
 
 tuning:
   n_trials: 50

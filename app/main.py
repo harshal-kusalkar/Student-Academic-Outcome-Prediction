@@ -6,7 +6,7 @@ from fastapi import Depends, FastAPI, File, HTTPException, Request, UploadFile
 from fastapi.responses import JSONResponse
 
 from src.data.data_cleaning import clean_data
-from src.inference.predict import Modelservice
+from inference.predictor import Modelservice
 from src.inference.validate import ValidateStudentData
 from utils.load_config import load_config
 from utils.logger import get_logger

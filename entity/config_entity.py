@@ -110,6 +110,7 @@ class MLflowConfig(BaseModel):
     tracking_uri: str
     experiment_name: str
     registered_model_name: str
+    model_alias: str
 
 class TuningConfig(BaseModel):
     n_trials: int = Field(
