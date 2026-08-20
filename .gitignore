@@ -51,3 +51,5 @@ __pycache__/
 # Runtime logs & generated artifacts
 artifacts/logs/
 *.log
+
+mlruns/
