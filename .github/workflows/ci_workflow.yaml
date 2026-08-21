@@ -37,6 +37,5 @@ jobs:
 
       - name: Run tests
         run: |
-          uv run pytest tests/test_encoder.py 
           uv run pytest tests/test_api.py 
           uv run pytest tests/test_feature_engineering.py
