@@ -1,3 +1,4 @@
+import time
 from pathlib import Path
 
 import mlflow
@@ -16,7 +17,7 @@ class Predictor:
         self,
         tracking_uri: str,
         model_name: str,
-        alias: str,
+        model_alias: str,
         encoder_path: Path,
     ):
 
@@ -25,7 +26,7 @@ class Predictor:
         )
 
         self.model_uri = (
-            f"models:/{model_name}@{alias}"
+            f"models:/{model_name}@{model_alias}"
         )
 
         logger.info(
@@ -33,8 +34,16 @@ class Predictor:
             self.model_uri,
         )
 
-        self.model = mlflow.sklearn.load_model(
+        start = time.time()
+
+        self.model = mlflow.pyfunc.load_model(
             self.model_uri
+        )
+
+        self.model_loading_time = time.time()-start
+
+        logger.info(
+            f"Model Loading time: {self.model_loading_time}"
         )
 
         self.encoder = load_model(
