@@ -3336,7 +3336,7 @@ wheels = [
 [[package]]
 name = "student-dropout-enrolled-graduate-rate-prediction"
 version = "0.1.0"
-source = { editable = "." }
+source = { virtual = "." }
 dependencies = [
     { name = "catboost" },
     { name = "dvc" },

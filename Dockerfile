@@ -1,36 +1,27 @@
-FROM python:3.11-slim
+FROM python:3.12-slim
+
+WORKDIR /app
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-WORKDIR /app
+# Install UV
+RUN pip install --no-cache-dir uv
 
-# Install system dependencies
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-        libgomp1 \
-    && rm -rf /var/lib/apt/lists/*
+# Copy dependency files first for Docker layer caching
+COPY pyproject.toml uv.lock ./
 
-# Install Python dependencies
-COPY requirements.txt .
+# Install project dependencies
+RUN uv sync --frozen --no-dev
 
-RUN pip install --no-cache-dir --upgrade pip \
-    && pip install --no-cache-dir -r requirements.txt
+# Copy application code
+COPY src ./src
+COPY utils ./utils
+COPY config ./config
+COPY entity ./entity
 
-# Copy application and project modules
-COPY app/ ./app/
-COPY src/ ./src/
-COPY utils/ ./utils/
-COPY config/ ./config/
-COPY artifacts/ ./artifacts/
-COPY entity/ ./entity/
-
-# Create non-root user
-RUN useradd --create-home appuser \
-    && chown -R appuser:appuser /app
-
-USER appuser
-
+# FastAPI port
 EXPOSE 8000
 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Start FastAPI
+CMD ["uv","run","uvicorn","src.api.app:app","--host","0.0.0.0","--port","8000"]

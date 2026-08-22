@@ -111,7 +111,7 @@ model_selection:
     random_state: 42
 
 mlflow:
-  tracking_uri: sqlite:///mlflow.db
+  tracking_uri: http://127.0.0.1:5000
   experiment_name: student_dropout_prediction
   registered_model_name: student_dropout_model
   model_alias: champion
