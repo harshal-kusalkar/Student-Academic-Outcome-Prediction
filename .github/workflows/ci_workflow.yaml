@@ -40,3 +40,19 @@ jobs:
           uv run pytest tests/test_ci.py 
           uv run pytest tests/test_feature_engineering.py
           uv run pytest tests/test_encoder.py 
+  
+  docker:
+
+    runs-on: ubuntu-latest
+
+    needs: test
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: |
+          docker build \
+            -t student-dropout-api:ci \
+            .
