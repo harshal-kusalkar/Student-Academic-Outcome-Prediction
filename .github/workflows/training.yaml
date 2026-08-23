@@ -40,4 +40,4 @@ jobs:
       - name: Verify DVC data 
         run: |
           test -f data/raw/student_academic_data/data.csv
-          echo "DVC successfully pulled."
+          echo "DVC data successfully pulled."
