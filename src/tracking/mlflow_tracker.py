@@ -1,3 +1,5 @@
+import os 
+
 import mlflow
 import mlflow.sklearn
 
@@ -12,8 +14,13 @@ def setup_mlflow(config):
     Configure MLflow tracking.
     """
 
+    tracking_uri = os.getenv(
+        "MLFLOW_TRACKING_URI",
+        config.mlflow.tracking_uri,
+    )
+
     mlflow.set_tracking_uri(
-        "sqlite:///mlflow.db"
+        tracking_uri
     )
 
     mlflow.set_experiment(
