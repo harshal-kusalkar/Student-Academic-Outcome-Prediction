@@ -111,7 +111,7 @@ model_selection:
     random_state: 42
 
 mlflow:
-  tracking_uri: http://mlflow:5000
+  tracking_uri: https://dagshub.com/harshal-kusalkar/mlflow-server.mlflow
   experiment_name: student_dropout_prediction
   registered_model_name: student_dropout_model
   model_alias: champion

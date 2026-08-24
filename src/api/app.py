@@ -4,6 +4,8 @@ import pandas as pd
 from fastapi import FastAPI
 import mlflow
 
+from dotenv import load_dotenv
+
 from src.api.mappings import COLUMN_MAPPING
 from src.api.schemas import StudentPredictionRequest
 from src.inference.predictor import Predictor
@@ -11,6 +13,7 @@ from src.inference.predictor import Predictor
 from utils.load_config import load_config
 from utils.logger import get_logger
 
+load_dotenv()
 
 logger = get_logger(__name__)
 
@@ -23,6 +26,17 @@ app = FastAPI(
 
 
 config = load_config()
+
+MLFLOW_TRACKING_USERNAME = os.getenv("MLFLOW_TRACKING_USERNAME")
+MLFLOW_TRACKING_PASSWORD = os.getenv("MLFLOW_TRACKING_PASSWORD")
+
+if not all(
+    [
+        MLFLOW_TRACKING_USERNAME,
+        MLFLOW_TRACKING_PASSWORD,
+    ]
+):
+    raise RuntimeError("MLflow environment variables are not configured.")
 
 client = mlflow.MlflowClient()
 

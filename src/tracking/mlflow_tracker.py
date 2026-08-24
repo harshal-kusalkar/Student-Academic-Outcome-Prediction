@@ -2,6 +2,7 @@ import os
 
 import mlflow
 import mlflow.sklearn
+import dagshub
 
 from utils.logger import get_logger
 
@@ -13,6 +14,8 @@ def setup_mlflow(config):
     """
     Configure MLflow tracking.
     """
+
+    dagshub.init(repo_owner='harshal-kusalkar', repo_name='mlflow-server', mlflow=True)
 
     tracking_uri = os.getenv(
         "MLFLOW_TRACKING_URI",

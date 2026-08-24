@@ -9,6 +9,7 @@ authors = [
 requires-python = ">=3.12"
 dependencies = [
     "catboost>=1.2.10",
+    "dagshub>=0.7.1",
     "dvc>=3.67.1",
     "dvc-s3>=3.3.0",
     "fastapi>=0.141.1",
@@ -19,6 +20,7 @@ dependencies = [
     "numpy>=2.5.2",
     "optuna>=4.9.0",
     "pandas>=2.2,<3",
+    "python-dotenv>=1.2.2",
     "scikit-learn>=1.9.0",
     "uvicorn>=0.52.4",
     "xgboost>=3.4.1",

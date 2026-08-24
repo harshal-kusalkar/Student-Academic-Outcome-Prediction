@@ -54,3 +54,5 @@ artifacts/logs/
 
 mlruns/
 mlflow.db/
+
+.env
