@@ -1,9 +1,17 @@
+import os
+
 import pandas as pd
+from dotenv import load_dotenv
 
 from src.inference.predictor import Predictor
 
-from utils.io import load_csv, load_model
+from utils.io import load_csv
 
+
+load_dotenv()
+
+MLFLOW_TRACKING_USERNAME = os.getenv("MLFLOW_TRACKING_USERNAME")
+MLFLOW_TRACKING_PASSWORD = os.getenv("MLFLOW_TRACKING_PASSWORD")
 
 def test_predictor(config):
 
