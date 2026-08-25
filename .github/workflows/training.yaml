@@ -38,20 +38,10 @@ jobs:
       
       - name: Run training pipeline
         env:
+          DAGSHUB_USER_TOKEN: ${{ secrets.DAGSHUB_USER_TOKEN }}
           MLFLOW_TRACKING_USERNAME: ${{ secrets.MLFLOW_TRACKING_USERNAME }}
           MLFLOW_TRACKING_PASSWORD: ${{ secrets.MLFLOW_TRACKING_PASSWORD }}
-        run: |
-          if [ -z "$MLFLOW_TRACKING_USERNAME" ]; then
-            echo "❌ MLFLOW_TRACKING_USERNAME is missing"
-            exit 1
-          fi
-
-          if [ -z "$MLFLOW_TRACKING_PASSWORD" ]; then
-            echo "❌ MLFLOW_TRACKING_PASSWORD is missing"
-            exit 1
-          fi
-
-          echo "✅ MLflow credentials are available"
+        run: uv run python -m main
         
           
       
