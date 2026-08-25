@@ -6,22 +6,26 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
 # Install UV
-RUN pip install --no-cache-dir uv
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
-# Copy dependency files first for Docker layer caching
+# Dependency files first for layer caching
 COPY pyproject.toml uv.lock ./
 
-# Install project dependencies
+# Install dependencies
 RUN uv sync --frozen --no-dev
 
-# Copy application code
+# Create runtime directories
+RUN mkdir -p /app/artifacts/logs
+
+# Application code
 COPY src ./src
 COPY utils ./utils
 COPY config ./config
 COPY entity ./entity
 
-# FastAPI port
+# Model preprocessing artifact
+COPY artifacts/encoder.joblib ./artifacts/encoder.joblib
+
 EXPOSE 8000
 
-# Start FastAPI
-CMD ["uv","run","uvicorn","src.api.app:app","--host","0.0.0.0","--port","8000"]
+CMD ["uv", "run", "uvicorn", "src.api.app:app", "--host", "0.0.0.0", "--port", "8000"]
