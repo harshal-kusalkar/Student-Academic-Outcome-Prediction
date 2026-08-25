@@ -2,7 +2,6 @@ import os
 
 import pandas as pd
 from fastapi import FastAPI
-import mlflow
 
 from dotenv import load_dotenv
 
@@ -11,12 +10,8 @@ from src.api.schemas import StudentPredictionRequest
 from src.inference.predictor import Predictor
 
 from utils.load_config import load_config
-from utils.logger import get_logger
 
 load_dotenv()
-
-logger = get_logger(__name__)
-
 
 app = FastAPI(
     title="Student Dropout Prediction API",
@@ -38,19 +33,6 @@ if not all(
 ):
     raise RuntimeError("MLflow environment variables are not configured.")
 
-client = mlflow.MlflowClient()
-
-model_version = client.get_model_version_by_alias(
-    config.mlflow.registered_model_name,
-    config.mlflow.model_alias,
-)
-
-
-logger.info(
-    "Using MLflow tracking URI: %s",
-    config.mlflow.tracking_uri,
-)
-
 
 predictor = Predictor(
     tracking_uri=config.mlflow.tracking_uri,
@@ -67,7 +49,6 @@ def health_check():
         "status": "healthy",
         "model": config.mlflow.registered_model_name,
         "model_alias": config.mlflow.model_alias,
-        "version": f"version: {model_version.version}"
     }
 
 
