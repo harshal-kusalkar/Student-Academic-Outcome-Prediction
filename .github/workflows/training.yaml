@@ -1,6 +1,8 @@
 name: Model Training
 
 on:
+  schedule:
+    - cron: "0 16 * * *"
   workflow_dispatch:
 
 jobs:
@@ -41,3 +43,23 @@ jobs:
         run: |
           test -f data/raw/student_academic_data/data.csv
           echo "DVC data successfully pulled."
+      - name: Verify procesed data produced.
+        run: |
+          test -f data/processed/X_test.csv
+          test -f data/processed/X_train.csv
+          test -f data/processed/y_test.npy
+          test -f data/processed/y_train.npy
+          echo "Processed data created successfully."
+      
+      - name: Run training pipeline
+        env:
+          MLFLOW_TRACKING_USERNAME: ${{ secrets.MLFLOW_TRACKING_USERNAME }}
+          MLFLOW_TRACKING_PASSWORD: ${{ secrets.MLFLOW_TRACKING_PASSWORD }}
+        run: |
+          uv run python -m src.pipelines.traning_pipeline 
+          uv run python -m src.pipelines.evaluation_pipeline
+
+          
+      
+      
+      
