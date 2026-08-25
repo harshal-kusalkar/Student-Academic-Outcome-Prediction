@@ -23,12 +23,12 @@ app = FastAPI(
 config = load_config()
 
 MLFLOW_TRACKING_USERNAME = os.getenv("MLFLOW_TRACKING_USERNAME")
-MLFLOW_TRACKING_PASSWORD = os.getenv("MLFLOW_TRACKING_PASSWORD")
+DAGSHUB_USER_TOKEN = os.getenv("DAGSHUB_USER_TOKEN")
 
 if not all(
     [
         MLFLOW_TRACKING_USERNAME,
-        MLFLOW_TRACKING_PASSWORD,
+        DAGSHUB_USER_TOKEN,
     ]
 ):
     raise RuntimeError("MLflow environment variables are not configured.")
