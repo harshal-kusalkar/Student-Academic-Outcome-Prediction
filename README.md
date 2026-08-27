@@ -1,167 +1,578 @@
 # Student Academic Outcome Prediction
 
-A modular machine learning project for **early prediction of student
-academic outcomes** using academic, demographic, and socioeconomic data.
-The goal is to help educational institutions identify students who may
-require timely academic or financial support.
+A modular machine learning and MLOps project for predicting student academic outcomes using academic, demographic, and socioeconomic data.
 
-The project predicts three outcomes:
+The project addresses a three-class classification problem:
 
-- **Dropout**
-- **Enrolled**
-- **Graduate**
+* **Dropout**
+* **Enrolled**
+* **Graduate**
+
+The broader objective is to support the early identification of students who may be at risk of academic dropout so that appropriate support strategies can be considered.
 
 ## Highlights
 
-- Multi-class student outcome prediction
-- Configuration-driven data validation and preprocessing
-- Benchmarking of **6 machine learning models**
-- **XGBoost** as the current model
-- Hyperparameter optimization with **Optuna** in notebooks
-- Experiment tracking with **Weights & Biases (W&B)** in notebooks
-- Data, pipeline, and artifact versioning with **DVC**
-- FastAPI inference service with CSV upload
-- Dockerized **inference-only** deployment
-- GitHub Actions for **continuous integration (CI)**
-- Unit tests for data validation, cleaning, and splitting
+* Three-class student academic outcome prediction
+* Benchmarking of **6 machine learning models**
+* **Random Forest selected using Macro F1**
+* **Stratified K-Fold cross-validation**
+* **Optuna hyperparameter optimization**
+* **MLflow experiment tracking and model registry**
+* **DagsHub** for remote MLflow infrastructure
+* FastAPI inference service
+* Pydantic-based API input validation
+* MLflow model alias-based model loading
+* Dockerized inference service
+* **GitHub Actions CI and Continuous Training (CT)**
+* Automated tests for data-processing components
 
 ## Dataset
 
-The dataset contains information available at student enrollment,
-including academic, demographic, and socioeconomic factors. Each row
-represents a student.
+The dataset was created from information collected by a higher education institution in Portugal and combines information from several disjoint databases.
+
+Each instance represents one student enrolled in an undergraduate degree program.
+
+The dataset contains academic, demographic, socioeconomic, and academic-performance information.
+
+The target variable contains three classes:
 
 | Class      | Meaning                       |
-|------------|-------------------------------|
+| ---------- | ----------------------------- |
 | `Dropout`  | Student leaves the program    |
 | `Enrolled` | Student remains enrolled      |
 | `Graduate` | Student completes the program |
 
-### Data Preparation
+The validated dataset contains:
 
-- Data validation checks structure, missing values, duplicates, and
-  target labels.
-- Column names are normalized.
-- Configured features are removed during cleaning.
-- Second-semester outcome-related features are excluded to avoid using
-  information unavailable at the intended prediction point.
-- Data is split into **80% training** and **20% testing** with
-  `random_state=42`.
-- The dataset contains no missing values.
+| Property       | Value |
+| -------------- | ----: |
+| Students       | 4,424 |
+| Features       |    37 |
+| Missing values |     0 |
+| Duplicate rows |     0 |
+| Target classes |     3 |
+
+The dataset is supported by the SATDAP - Capacitação da Administração Pública program under grant `POCI-05-5762-FSE-000191`, Portugal.
+
+## Data Preparation
+
+The data pipeline separates validation and cleaning responsibilities.
+
+### Data Validation
+
+The validation stage verifies:
+
+* Dataset structure
+* Number of rows and columns
+* Missing values
+* Duplicate records
+* Target column
+* Target classes
+
+The validation result for the project dataset is:
+
+```text
+Status: PASSED
+Rows: 4424
+Columns: 37
+Missing values: None
+Duplicate rows: 0
+Target: Target
+Classes: Dropout, Enrolled, Graduate
+```
+
+### Data Cleaning
+
+The cleaning stage is responsible for:
+
+* Normalizing column names
+* Removing configured columns
+* Removing duplicate rows
+* Returning the cleaned DataFrame
+
+### Data Split
+
+The dataset is split into:
+
+* **80% training**
+* **20% testing**
+
+The test dataset is kept separate from model selection and final training and is used for final evaluation.
+
+## Training Pipeline
+
+The training pipeline is modular and separates feature engineering, preprocessing, model comparison, hyperparameter optimization, final training, and model registration.
+
+```mermaid
+flowchart TD
+    A[Training Data] --> B[Feature Engineering]
+    B --> C[Preprocessing]
+
+    C --> D1[Logistic Regression]
+    C --> D2[Random Forest]
+    C --> D3[HistGradientBoosting]
+    C --> D4[XGBoost]
+    C --> D5[LightGBM]
+    C --> D6[CatBoost]
+
+    D1 --> E[Stratified Cross Validation]
+    D2 --> E
+    D3 --> E
+    D4 --> E
+    D5 --> E
+    D6 --> E
+
+    E --> F[Macro F1]
+    E --> G[Balanced Accuracy]
+
+    F --> H[MLflow Tracking]
+    G --> H
+
+    H --> I[Model Selection]
+    I --> J[Best Model]
+
+    J --> K[Optuna Hyperparameter Tuning]
+    K --> L[Final Model Training]
+
+    L --> M[Model Artifact]
+    L --> N[MLflow Model Registry]
+```
+
+### Feature Engineering
+
+A dedicated feature-engineering transformer creates additional academic features from the semester information.
+
+The engineered features include:
+
+* Semester 1 approval rate
+* Semester 1 evaluation rate
+* Semester 1 without-evaluation rate
+* Semester 2 approval rate
+* Semester 2 evaluation rate
+* Semester 2 without-evaluation rate
+* Total enrolled units
+* Total approved units
+* Total evaluations
+* Overall approval rate
+* Grade change between semesters
+* Approval change between semesters
+* Enrollment change between semesters
+
+These features provide the model with information about both academic performance and progression.
+
+### Preprocessing
+
+The preprocessing stage uses a configurable `ColumnTransformer` with separate pipelines for:
+
+* Numerical features
+* Categorical features
+* Binary features
+
+Numerical features support configurable imputation and scaling.
+
+Categorical features support configurable imputation and encoding.
+
+The feature engineering, preprocessing, and classifier are combined into a single machine learning pipeline.
+
+```text
+Input Data
+    |
+    v
+Feature Engineering
+    |
+    v
+Preprocessing
+    |
+    v
+Classifier
+```
+
+This ensures that the same transformation pipeline is reused during model training and inference.
 
 ## Model Development
 
-Six classifiers were benchmarked using the same evaluation setup:
+Six classification algorithms are benchmarked using the same pipeline and cross-validation strategy:
 
-- Logistic Regression
-- Random Forest
-- Extra Trees
-- XGBoost
-- LightGBM
-- CatBoost
+* Logistic Regression
+* Random Forest
+* HistGradientBoosting
+* XGBoost
+* LightGBM
+* CatBoost
 
-**Macro F1** is the primary model-selection metric because the target
-classes are imbalanced.
+Because the target classes are imbalanced, **Macro F1** is used as the primary model-selection metric.
 
-### Benchmark Results
+**Balanced Accuracy** is used as an additional evaluation metric.
 
-| Model               |   Accuracy | Balanced Accuracy |   Macro F1 |
-|---------------------|-----------:|------------------:|-----------:|
-| **XGBoost**         | **0.7409** |        **0.6567** | **0.6642** |
-| LightGBM            |     0.7409 |            0.6540 |     0.6605 |
-| CatBoost            |     0.7369 |            0.6458 |     0.6520 |
-| Random Forest       |     0.7420 |            0.6432 |     0.6502 |
-| Extra Trees         |     0.7279 |            0.6250 |     0.6323 |
-| Logistic Regression |     0.6878 |            0.5673 |     0.5567 |
+### Cross-Validation
 
-XGBoost achieved the strongest **Macro F1** and balanced accuracy in the
-benchmark and is the current model used by the main pipeline.
+Candidate models are evaluated using **Stratified K-Fold Cross-Validation**.
 
-### Hyperparameter Optimization
+The evaluation records:
 
-Optuna optimization was performed separately in notebooks. The resulting
-parameters were retained for use by the main training pipeline.
+* Mean Macro F1
+* Standard deviation of Macro F1
+* Mean Balanced Accuracy
+* Standard deviation of Balanced Accuracy
 
-| Parameter          |       Value |
-|--------------------|------------:|
-| Best trial         |        `75` |
-| Best CV Macro F1   |   `0.68070` |
-| `n_estimators`     |       `793` |
-| `learning_rate`    | `0.0758589` |
-| `max_depth`        |         `4` |
-| `min_child_weight` |         `2` |
-| `subsample`        |  `0.897915` |
-| `colsample_bytree` |  `0.744593` |
-| `gamma`            |  `0.723508` |
-| `reg_alpha`        |  `0.003037` |
-| `reg_lambda`       | `0.0000159` |
+The model-selection process ranks candidates by mean Macro F1.
 
-> **Note:** `0.68070` is the best cross-validation score from Optuna,
-> not the held-out test-set score.
+## Model Benchmark Results
 
-## Experimentation vs. Main Pipeline
+| Rank | Model                | Macro F1 Mean | Macro F1 Std | Balanced Accuracy Mean | Balanced Accuracy Std |
+| ---: | -------------------- | ------------: | -----------: | ---------------------: | --------------------: |
+|    1 | **Random Forest**    |    **0.7165** |       0.0232 |                 0.7113 |                0.0231 |
+|    2 | HistGradientBoosting |        0.7110 |       0.0168 |                 0.7031 |                0.0168 |
+|    3 | Logistic Regression  |        0.7095 |       0.0145 |             **0.7169** |                0.0155 |
+|    4 | XGBoost              |        0.7070 |       0.0202 |                 0.6990 |                0.0185 |
+|    5 | LightGBM             |        0.7068 |       0.0140 |                 0.6988 |                0.0141 |
+|    6 | CatBoost             |        0.6967 |       0.0122 |                 0.6881 |                0.0104 |
 
-Notebook experimentation is intentionally separated from the main
-pipeline.
+### Model Selection Decision
 
-**Notebooks** are used for:
+Random Forest achieved the highest mean Macro F1:
 
-- Model benchmarking
-- Optuna hyperparameter optimization
-- W&B experiment tracking
+```text
+Random Forest
+Macro F1 = 0.7165
+```
 
-The selected XGBoost parameters are then reused by the **main training
-pipeline**, which produces the model artifact used for inference.
+Although Logistic Regression achieved a slightly higher Balanced Accuracy, Macro F1 was defined as the primary model-selection metric.
 
-## MLOps
+Therefore, **Random Forest was selected as the best candidate model**.
 
-| Practice                    | Implementation  |
-|-----------------------------|-----------------|
-| Configuration               | YAML + Pydantic |
-| Data & pipeline versioning  | DVC             |
-| Experiment tracking         | W&B             |
-| Hyperparameter optimization | Optuna          |
-| Testing                     | Pytest          |
-| Continuous Integration      | GitHub Actions  |
-| API                         | FastAPI         |
-| Containerization            | Docker          |
+## Hyperparameter Optimization
 
-The project currently focuses on reproducible development, training,
-evaluation, and inference. **Model monitoring, Kubernetes deployment,
-and automated retraining are not implemented.**
+After model selection, the selected Random Forest model is passed to the hyperparameter optimization stage.
+
+**Optuna** is used to search for better model parameters.
+
+The optimized parameters are then applied to the selected pipeline before final training.
+
+The training pipeline follows:
+
+```text
+Candidate Models
+       |
+       v
+Cross-Validation
+       |
+       v
+Select Best Model
+       |
+       v
+Optuna Optimization
+       |
+       v
+Best Parameters
+       |
+       v
+Final Model Training
+```
+
+## Experiment Tracking and Model Registry
+
+**MLflow** is used for experiment tracking and model management.
+
+During model benchmarking, the evaluation results of candidate models are logged so that model-selection decisions are traceable.
+
+The final trained model is registered in the MLflow Model Registry.
+
+```mermaid
+flowchart LR
+    A[Model Experiments] --> B[MLflow Tracking]
+    B --> C[Model Comparison]
+    C --> D[Best Model]
+    D --> E[Final Training]
+    E --> F[MLflow Model Registry]
+```
+
+**DagsHub** provides the remote MLflow infrastructure used by the project.
+
+## Final Model Evaluation
+
+The final model is evaluated against the untouched test dataset.
+
+The test dataset contains **885 records**.
+
+### Overall Results
+
+| Metric            |      Score |
+| ----------------- | ---------: |
+| Accuracy          | **0.7537** |
+| Macro F1          | **0.7077** |
+| Balanced Accuracy | **0.7121** |
+| Macro Precision   | **0.7104** |
+| Macro Recall      | **0.7121** |
+
+### Class-Level Results
+
+| Class    | Precision | Recall | F1-Score | Support |
+| -------- | --------: | -----: | -------: | ------: |
+| Dropout  |    0.8226 | 0.7183 |   0.7669 |     284 |
+| Enrolled |    0.4577 | 0.5786 |   0.5111 |     159 |
+| Graduate |    0.8509 | 0.8394 |   0.8451 |     442 |
+
+The model performs strongest on the `Graduate` class and has the most difficulty distinguishing the `Enrolled` class.
+
+The `Dropout` class achieves an F1-score of **0.7669** and recall of **0.7183**.
+
+### Confusion Matrix
+
+```text
+                  Predicted
+               Dropout  Enrolled  Graduate
+
+Actual Dropout    204       52        28
+Actual Enrolled    30       92        37
+Actual Graduate    14       57       371
+```
+
+## Inference Architecture
+
+The trained model is exposed through a FastAPI inference service.
+
+The inference service loads the registered model from MLflow using a configured model alias.
+
+```mermaid
+flowchart LR
+    A[Client] --> B[FastAPI]
+    B --> C[Pydantic Validation]
+    C --> D[Column Mapping]
+    D --> E[Predictor]
+    E --> F[MLflow Model Registry]
+    F --> G[Model Pipeline]
+    G --> H[Prediction]
+    H --> I[Label Encoder]
+    I --> B
+    B --> A
+```
+
+### API Input Validation
+
+The prediction request is defined using a Pydantic schema.
+
+Unexpected fields are rejected using strict request validation.
+
+The API accepts student attributes including:
+
+* Academic information
+* Demographic information
+* Socioeconomic information
+* First-semester academic information
+* Second-semester academic information
+* Macroeconomic indicators
+
+### Column Mapping
+
+The API uses clean Python-friendly field names and maps them to the original dataset column names before prediction.
+
+For example:
+
+```text
+age_at_enrollment
+        |
+        v
+Age at enrollment
+```
+
+This keeps the API interface clean while maintaining compatibility with the trained model pipeline.
+
+### Model Loading
+
+The inference service constructs the MLflow model URI using the registered model name and alias:
+
+```text
+models:/<model_name>@<model_alias>
+```
+
+The model is loaded when the application initializes rather than being loaded for every prediction request.
+
+### Prediction Flow
+
+```text
+HTTP POST /predict
+        |
+        v
+Pydantic Validation
+        |
+        v
+Column Mapping
+        |
+        v
+Pandas DataFrame
+        |
+        v
+Predictor
+        |
+        v
+MLflow Model
+        |
+        v
+Feature Engineering
+        |
+        v
+Preprocessing
+        |
+        v
+Random Forest
+        |
+        v
+Label Encoder
+        |
+        v
+Dropout / Enrolled / Graduate
+```
+
+### Health Check
+
+The API exposes a health endpoint that reports:
+
+* Service status
+* Registered model name
+* Model alias
+
+## Docker
+
+Docker is used to package the FastAPI inference service and its runtime dependencies.
+
+The container provides a reproducible inference environment containing:
+
+* Python runtime
+* FastAPI
+* Model dependencies
+* Application source
+* Configuration
+* Model artifacts
+
+Build the image:
+
+```bash
+uv run docker build -t student-success-api .
+```
+
+Run the container:
+
+```bash
+uv run docker run --name student-success-api -p 8000:8000 student-success-api
+```
+
+The API is available at:
+
+```text
+http://localhost:8000
+```
+
+Swagger UI:
+
+```text
+http://localhost:8000/docs
+```
+
+## MLOps Practices
+
+| Practice                    | Implementation                            |
+| --------------------------- | ----------------------------------------- |
+| Configuration               | YAML + Pydantic                           |
+| Data validation             | Custom validation pipeline                |
+| Data cleaning               | Dedicated cleaning component              |
+| Feature engineering         | Custom scikit-learn transformer           |
+| Preprocessing               | scikit-learn Pipeline + ColumnTransformer |
+| Model benchmarking          | 6 classification models                   |
+| Cross-validation            | Stratified K-Fold                         |
+| Model selection             | Macro F1                                  |
+| Hyperparameter optimization | Optuna                                    |
+| Experiment tracking         | MLflow                                    |
+| Model registry              | MLflow Model Registry                     |
+| Remote ML infrastructure    | DagsHub                                   |
+| Testing                     | Pytest                                    |
+| Continuous Integration      | GitHub Actions                            |
+| Continuous Training         | GitHub Actions                            |
+| API                         | FastAPI                                   |
+| Input validation            | Pydantic                                  |
+| Containerization            | Docker                                    |
+
+## CI and Continuous Training
+
+GitHub Actions is used to automate parts of the machine learning development lifecycle.
+
+### Continuous Integration
+
+CI runs automated tests to verify the data-processing components of the project.
+
+Current tests cover:
+
+* Data validation
+* Missing-value and duplicate detection
+* Target-label validation
+* Data cleaning
+* Configured column removal
+* Column-name normalization
+* Train/test splitting
+* Split reproducibility
+
+Run the tests locally with:
+
+```bash
+pytest tests/ -v
+```
+
+### Continuous Training
+
+Continuous Training is implemented using GitHub Actions to automate the training workflow.
+
+The CT workflow can execute the project's training process after the configured workflow trigger, allowing model training to be integrated into the development lifecycle rather than requiring manual execution alone.
+
+The training workflow includes the project's existing:
+
+```text
+Data
+  |
+  v
+Validation / Cleaning
+  |
+  v
+Feature Engineering
+  |
+  v
+Preprocessing
+  |
+  v
+Model Benchmarking
+  |
+  v
+Model Selection
+  |
+  v
+Hyperparameter Optimization
+  |
+  v
+Final Training
+  |
+  v
+MLflow Model Registry
+```
 
 ## DVC Pipeline
 
-The DVC pipeline contains three stages:
+DVC is used for data and pipeline versioning.
 
-1.  **Data** — prepares processed train/test datasets.
-2.  **Train** — trains the configured XGBoost model and stores model
-    artifacts.
-3.  **Evaluate** — evaluates the trained model and stores evaluation
-    reports.
+The project contains DVC pipeline stages for the data, training, and evaluation workflow.
 
 Run the pipeline with:
 
-``` bash
+```bash
 dvc repro
 ```
 
-Key generated artifacts include:
-
-``` text
-artifacts/
-├── models/
-│   └── best_model.joblib
-├── feature_names.joblib
-├── eval_result.json
-└── classification_report.joblib
-```
+Key generated artifacts include the trained model and evaluation outputs configured by the project.
 
 ## Project Structure
 
-``` text
+```text
 Student-Academic-Outcome-Prediction/
-├── .github/              # GitHub Actions CI
+
+├── .github/              # GitHub Actions CI / CT workflows
 ├── .dvc/                 # DVC metadata
 ├── app/                  # FastAPI application
 ├── artifacts/            # Models and generated artifacts
@@ -184,201 +595,136 @@ Student-Academic-Outcome-Prediction/
 
 ## Installation
 
-### 1. Clone the repository
+### 2. Install `uv`
 
-``` bash
-git clone https://github.com/harshal-kusalkar/Student-Academic-Outcome-Prediction
-cd Student-Academic-Outcome-Prediction
+If `uv` is not already installed, install it using the official installation method for your operating system.
+
+Verify the installation:
+
+```bash
+uv --version
 ```
 
 ### 2. Create a virtual environment
 
 **Windows**
 
-``` bash
-python -m venv .venv
-.venv\Scripts\activate
+```bash
+uv venv
+.venv/Scripts/Activate.ps1
 ```
 
 **Linux / macOS**
 
-``` bash
-python3 -m venv .venv
+```bash
+uv venv
 source .venv/bin/activate
 ```
 
 ### 3. Install dependencies
 
-``` bash
-pip install -r requirements.txt
+```bash
+uv sync
 ```
 
 ## Training
 
 Run the main training pipeline:
 
-``` bash
-python -m main
+```bash
+uv run python -m main
 ```
 
-Or reproduce the DVC pipeline:
+The training pipeline:
 
-``` bash
-dvc repro
-```
-
-The optimized XGBoost parameters obtained during notebook
-experimentation are reused by the main pipeline.
+1. Loads the training data.
+2. Creates candidate model pipelines.
+3. Performs stratified cross-validation.
+4. Compares models using Macro F1 and Balanced Accuracy.
+5. Selects the model with the highest Macro F1.
+6. Performs Optuna hyperparameter optimization for the selected Random Forest.
+7. Trains the final model on the training dataset.
+8. Saves the final model artifact.
+9. Saves model comparison results.
+10. Registers the final model with MLflow.
 
 ## FastAPI Inference
 
 Start the API locally:
 
-``` bash
-uvicorn app.main:app --host 0.0.0.0 --port 8000
+```bash
+uv run uvicorn src.api.app:app --host 0.0.0.0 --port 8000
 ```
 
 For development:
 
-``` bash
-uvicorn app.main:app --reload
+```bash
+uv run uvicorn src.api.app:app --reload
 ```
 
-Open the interactive documentation at:
+Open the interactive API documentation:
 
-``` text
+```text
 http://localhost:8000/docs
 ```
 
 ### Health Check
 
-``` bash
-curl http://localhost:8000/
+```bash
+curl http://localhost:8000/health
 ```
 
 ### Prediction
 
-The prediction endpoint accepts a CSV file using a **semicolon (`;`)
-delimiter**:
+The prediction API accepts a validated student prediction request.
 
-``` bash
-curl -X POST \
-  -F "file=@test_sample.csv" \
-  http://localhost:8000/predict/file
-```
+The API validates the input, maps API fields to the original dataset columns, sends the data through the registered model pipeline, and returns the predicted academic outcome.
 
-A successful response contains:
+Example response:
 
-``` json
+```json
 {
-  "filename": "test_sample.csv",
-  "rows": 10,
-  "predictions": [
-    "Dropout",
-    "Graduate",
-    "Enrolled"
-  ]
+  "prediction": "Graduate",
+  "model": "student-model",
+  "model_alias": "champion"
 }
 ```
 
-The API validates the uploaded feature set against the stored feature
-names before prediction and rejects missing or unexpected features.
-
-## Docker — Inference Only
-
-Docker packages the **FastAPI inference service**, runtime dependencies,
-configuration, source modules, and model artifacts.
-
-Build the image:
-
-``` bash
-docker build -t student-success-api .
-```
-
-Run the container:
-
-``` bash
-docker run --name student-success-api -p 8000:8000 student-success-api
-```
-
-The API is available at:
-
-``` text
-http://localhost:8000
-```
-
-Swagger UI:
-
-``` text
-http://localhost:8000/docs
-```
-
-The container uses Python 3.11 and runs the application as a non-root
-user.
-
-## Testing
-
-Testing currently focuses on the data-processing layer.
-
-Implemented tests cover:
-
-- Data validation
-- Missing-value and duplicate detection
-- Target-label validation
-- Data cleaning
-- Configured column removal
-- Column-name normalization
-- Train/test splitting
-- Split reproducibility
-
-Run tests with:
-
-``` bash
-pytest tests/ -v
-```
-
-Mock-based tests and broader model/API integration tests are **not
-currently implemented**.
-
-## Continuous Integration
-
-GitHub Actions is used for **CI only**.
-
-The workflow runs automated tests for pushes and pull requests targeting
-the `main` branch. There is currently no automated deployment workflow.
-
-## Documentation
-
-Additional documentation is available in [`docs/`](docs/):
-
-- [`API Documentation`](docs/api.md)
-- [`Docker Documentation`](docs/docker.md)
-- [`MLOps Practices`](docs/mlops_practices.md)
-- [`Model Benchmark`](docs/model_benchmark.md)
-- [`Project Architecture`](docs/project_architecture.md)
-
-> Some documents contain earlier implementation details. The main README
-> reflects the current XGBoost-based implementation.
-
 ## Limitations
 
-- Prediction quality depends on the available enrollment-time features
-  and dataset.
-- Testing currently covers selected data-processing components rather
-  than the complete application.
-- Notebook experimentation is separate from the main automated pipeline.
-- Model monitoring is not implemented.
-- Kubernetes deployment is not implemented.
-- Automated model retraining is not implemented.
+* Prediction quality depends on the available student features and dataset.
+* The `Enrolled` class has substantially lower predictive performance than the `Dropout` and `Graduate` classes.
+* Testing currently focuses primarily on data-processing components.
+* Broader model/API integration tests can be added.
+* Model monitoring is not implemented.
+* Kubernetes deployment is not implemented.
+* Automated production retraining and deployment are not implemented.
 
 ## Future Improvements
 
-- Expand API and model integration tests
-- Automate model retraining
-- Add cloud deployment
-- Improve model and artifact lifecycle management
+* Expand model and API integration tests
+* Add model monitoring
+* Add production cloud deployment
+* Introduce Kubernetes deployment
+* Improve model and artifact lifecycle management
+* Extend automated retraining and deployment workflows
+
+## Documentation
+
+Additional project documentation is available in [`docs/`](docs/).
+
+Suggested documentation sections include:
+
+* Data and Problem Statement
+* Training Pipeline
+* Model Benchmark
+* Final Model Evaluation
+* Inference Architecture
+* MLOps Practices
+* Docker Documentation
+* API Documentation
+* Project Architecture
 
 ## License
 
-This project is licensed under the MIT License. See [`LICENSE`](LICENSE)
-for details.
+This project is licensed under the MIT License. See [`LICENSE`](LICENSE) for details.
