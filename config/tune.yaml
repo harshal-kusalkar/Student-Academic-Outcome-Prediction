@@ -1,0 +1,103 @@
+
+models:
+  logistic_regression:
+    class: LogisticRegression
+    module: sklearn.linear_model
+    params:
+      C:
+        type: float
+        low: 0.01
+        high: 10.0
+        log: true
+      class_weight:
+        type: categorical
+        choices: ["balanced", null]
+
+  random_forest:
+    class: RandomForestClassifier
+    module: sklearn.ensemble
+    params:
+      n_estimators:
+        type: int
+        low: 100
+        high: 400
+        step: 100
+      max_depth:
+        type: categorical
+        choices: [null, 10, 20, 30]
+      class_weight:
+        type: categorical
+        choices: ["balanced", null]
+
+  xgboost:
+    class: XGBClassifier
+    module: xgboost
+    params:
+      n_estimators:
+        type: int
+        low: 100
+        high: 400
+        step: 100
+      max_depth:
+        type: int
+        low: 3
+        high: 8
+      learning_rate:
+        type: float
+        low: 0.01
+        high: 0.3
+        log: true
+
+  lightgbm:
+    class: LGBMClassifier
+    module: lightgbm
+    params:
+      n_estimators:
+        type: int
+        low: 100
+        high: 400
+        step: 100
+      learning_rate:
+        type: float
+        low: 0.01
+        high: 0.3
+        log: true
+      max_depth:
+        type: categorical
+        choices: [-1, 10, 20]
+
+  catboost:
+    class: CatBoostClassifier
+    module: catboost
+    params:
+      iterations:
+        type: int
+        low: 100
+        high: 400
+        step: 100
+      depth:
+        type: categorical
+        choices: [4, 6, 8]
+      learning_rate:
+        type: float
+        low: 0.01
+        high: 0.3
+        log: true
+      l2_leaf_reg:
+        type: float
+        low: 1.0
+        high: 10.0
+        log: true
+
+optimization:
+  direction: maximize
+  n_trials: 30
+  scoring: f1_macro
+  cv:
+    strategy: stratified_kfold
+    n_splits: 5
+    shuffle: true
+    random_state: 42
+  sampler:
+    type: TPESampler
+    seed: 42
