@@ -114,3 +114,9 @@ mlflow:
 
 tuning:
   n_trials: 50
+
+model_selection:
+  cv:
+    n_splits: 5
+    shuffle: true
+    random_state: 43

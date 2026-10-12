@@ -109,6 +109,15 @@ class TuningConfig(BaseModel):
         ge=1,
     )
 
+class CVConfig(BaseModel):
+    n_splits: int = Field(
+        default=5,
+        ge=2,
+        )
+    random_state: int = 42
+
+class ModelSelectionConfig(BaseModel):
+    cv: CVConfig
 
 class Config(BaseModel):
     data_paths: DataPathsConfig
@@ -119,3 +128,4 @@ class Config(BaseModel):
     data_split: DataSplitConfig
     mlflow: MLflowConfig
     tuning: TuningConfig
+    model_selection: ModelSelectionConfig
