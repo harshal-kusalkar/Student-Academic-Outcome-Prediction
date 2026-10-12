@@ -1,0 +1,44 @@
+models:
+
+  random_forest:
+    class: RandomForestClassifier
+    module: sklearn.ensemble
+
+    params:
+      random_state: 42
+      n_jobs: -1
+
+
+  logistic_regression:
+    class: LogisticRegression
+    module: sklearn.linear_model
+
+    params:
+      random_state: 42
+      max_iter: 1000
+
+  xgboost:
+    class: XGBClassifier
+    module: xgboost
+
+    params:
+      random_state: 42
+      n_jobs: -1
+      eval_metric: mlogloss
+
+  lightgbm:
+    class: LGBMClassifier
+    module: lightgbm
+
+    params:
+      random_state: 42
+      n_jobs: -1
+      verbosity: -1
+
+  catboost:
+    class: CatBoostClassifier
+    module: catboost
+
+    params:
+      random_seed: 42
+      verbose: 0

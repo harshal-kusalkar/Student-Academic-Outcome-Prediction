@@ -105,13 +105,9 @@ data_split:
   random_state: 42
   stratify: true
 
-model_selection:
-  cv:
-    n_splits: 5
-    random_state: 42
-
+  
 mlflow:
-  tracking_uri: https://dagshub.com/harshal-kusalkar/mlflow-server.mlflow
+  tracking_uri: http://localhost:5000
   experiment_name: student_dropout_prediction
   registered_model_name: student_dropout_model
   model_alias: champion

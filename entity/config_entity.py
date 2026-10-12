@@ -1,7 +1,7 @@
-from typing import Literal
+from typing import Literal, Optional
 from pathlib import Path
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 
 
 class DataPathsConfig(BaseModel):
@@ -96,15 +96,6 @@ class DataSplitConfig(BaseModel):
     random_state: int
     stratify: bool
 
-class CVConfig(BaseModel):
-    n_splits: int = Field(
-        default=5,
-        ge=2,
-        )
-    random_state: int = 42
-
-class ModelSelectionConfig(BaseModel):
-    cv: CVConfig
 
 class MLflowConfig(BaseModel):
     tracking_uri: str
@@ -126,6 +117,5 @@ class Config(BaseModel):
     features: FeaturesConfig
     preprocessing: PreprocessingConfig
     data_split: DataSplitConfig
-    model_selection: ModelSelectionConfig
     mlflow: MLflowConfig
     tuning: TuningConfig
