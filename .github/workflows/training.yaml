@@ -36,7 +36,7 @@ jobs:
           AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
         run: uv run dvc pull
       
-      - name: Run training pipeline
+      - name: Run Mlflow server
 
         run: | 
             uv run mlflow server \
@@ -44,10 +44,8 @@ jobs:
             --port 5000 \ 
             --host 127.0.0.1 &
             
-            sleep 5
-            
-            uv run python -m main
-        
+      - name: Run Training Pipeline 
+        run: uv run python -m src.pipelines.main
           
       
       
