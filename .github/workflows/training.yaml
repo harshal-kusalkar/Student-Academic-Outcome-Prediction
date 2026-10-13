@@ -39,12 +39,9 @@ jobs:
       - name: Run training pipeline
 
         run: | 
-             uv run mlflow server \ 
-             --backend-store-uri sqlite:///mlflow.db \ 
-             --host 127.0.0.1 \ 
-             --port 5000 
-             &
-             sleep 5 && uv run python -m main
+            uv run mlflow server --backend-store-uri sqlite:///mlflow.db
+            &
+            sleep 5 && uv run python -m main
         
           
       
